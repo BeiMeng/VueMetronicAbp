@@ -1,0 +1,22 @@
+/* .tabbable-line a{
+    display: inline!important;
+}   */
+
+/*fade-transform*/
+.fade-transform-leave-active,
+.fade-transform-enter-active {
+  transition: all .5s;
+}
+.fade-transform-enter {
+  opacity: 0;
+  transform: translateX(-10px);
+}
+.fade-transform-leave-to {
+  opacity: 0;
+  transform: translateX(10px);
+}
+
+/* 设置sweetalert2 的遮罩高度 */
+.swal2-container {
+  z-index: 100000 !important;
+}
