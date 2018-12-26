@@ -36,8 +36,8 @@ export default {
             let defaultPage=this.getDefaultPage(menu);
             //未点击此模块下的页面的话,找不到页面 todo 默认打开第一个页面
             if(defaultPage!=undefined){
-                this.$store.dispatch('addView', defaultPage)
-                this.$store.commit('SET_SELECTEDMENUSTATE',defaultPage)                
+                //this.$store.dispatch('addView', defaultPage)
+                //this.$store.commit('SET_SELECTEDMENUSTATE',defaultPage)                
                 this.$router.push(defaultPage.path) 
             }            
             
@@ -61,19 +61,15 @@ export default {
         }
     },
     mounted(){
+        //加载首页
         let homePage=this.headerMenus.find(p=>p.isHome);
         if(homePage!=undefined){
             this.$store.dispatch('addView', homePage)
-        }       
+        }
+        //显示默认模块       
         let defaultMenu=this.headerMenus.find(p=>p.default);
         if(defaultMenu!=undefined){
-            this.$store.dispatch('setSideBarMenu', defaultMenu.children)
-
-            let defaultPage=this.getDefaultPage(defaultMenu);
-            console.log(defaultPage);          
-            this.$store.dispatch('addView', defaultPage)
-            this.$store.commit('SET_SELECTEDMENUSTATE',defaultPage)                
-            this.$router.push(defaultPage.path)            
+            this.$store.dispatch('setSideBarMenu', defaultMenu.children)         
         }        
     }  
 }

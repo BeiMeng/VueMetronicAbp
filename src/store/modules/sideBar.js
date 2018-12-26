@@ -21,7 +21,7 @@ const sideBar = {
     SET_SELECTEDMENUSTATE(state, itemMenu) {
 
        //有顶部菜单且有tab页签时，实现切换tab页签，跳转到对应的顶部菜单以及侧边菜单的切换
-       if(config.showHeaderMenus){
+       if(config.showHeaderMenus && itemMenu.path !="/"){
         //1.判断此tab页是否在state.sideBarMenu 中
         let menu=loopFindDefaultPage(state.sideBarMenu,itemMenu)
         //不在,在state.headerMenus 找到   

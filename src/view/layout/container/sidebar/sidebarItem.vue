@@ -31,7 +31,7 @@
         },
         methods:{
             clickLink(item,e){
-                if(item.path===undefined){
+                if(!item.path){
                     return;
                 }
                 //限制打开过多的tab页，防止缓存过多
@@ -42,13 +42,8 @@
                         message: `当前打开页面太多,请关闭一些不使用页面再点击！`
                     });
                     return                   
-                }
-                //先将全部菜单项设置为未选中
-                this.$store.commit('SET_SELECTEDMENUSTATE',item)                
-                //再将当前选中项设置为选中状态
-                //this.$set(item, "default", true )                                                                               
+                }                                                                             
                 e.preventDefault();
-                this.$store.dispatch('addView', item)
                 this.$router.push(item.path)
             }
         }

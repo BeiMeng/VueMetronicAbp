@@ -18,7 +18,17 @@ let router = new Router({
                   resolve(require('@/view/account/login.vue'))
               })
       }
-    },     
+    }, 
+    {
+      path: '/error404',
+      name: 'error404',
+      component: resolve => {
+          require.ensure([],
+              () => {
+                  resolve(require('@/view/error/404.vue'))
+              })
+      }
+    },          
     {
       path: '/',
       //name: 'pageLayout',

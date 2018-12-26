@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
-        afdsfasfafafasfasf                  
+        afdsfasfafafasfasf 
+        <el-button type="success" @click="toMenu">进入菜单页</el-button>                 
                 </div>
 
 </template>
@@ -12,6 +13,11 @@ export default {
     return {
       msg: "Welcome to Your Vue.js App"
     };
+  },
+  methods:{
+    toMenu(){
+      this.$router.push('/menusManage')
+    }
   }
 };
 </script>

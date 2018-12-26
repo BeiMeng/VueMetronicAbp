@@ -1,12 +1,13 @@
-# vuemetro
+# VueMetronicAbp
 
-> A Vue.js project
+> 基于metronic_v47的 Vue 版的 Abp前端框架，最大程度的移植Abp 的Ng 版本,保留其相应的风格
+
 
 ## Build Setup
 
 ``` bash
 # install dependencies
-npm install
+npm install or yarn
 
 # serve with hot reload at localhost:8080
 npm run dev

@@ -9,74 +9,98 @@ import 'nprogress/nprogress.css' //这个样式必须引入
 import config from '@/config/index'
 
 
-//判断请求的页面是否在当前用户拥有的页面列表中
-function pageAuth(path){
-  console.log(store.state.sideBar.sideBarMenu)
-  console.log(store.state.sideBar.headerMenus)
-  if(config.showHeaderMenus){
-    return isExistPage(store.state.sideBar.headerMenus,path);
-  }else{
-    return isExistPage(store.state.sideBar.sideBarMenu,path);
-  }
-  
-  function isExistPage(menus,path){
-    for (let index = 0; index < menus.length; index++) {
-      const element = menus[index];
-      if(element.hasOwnProperty('children')){
-         if(isExistPage(element.children,path)){
-           return true
-         }else{
-           continue;
-         }
-      }else{
-        if(element.path==path){
-          return true
-        }
+function findItem(items,path){
+  for (let index = 0; index < items.length; index++) {
+    const element = items[index];
+    if(element.hasOwnProperty('children')){
+       let item=findItem(element.children,path);
+       if(item!=null){
+         return item
+       }else{
+         continue;
+       }
+    }else{
+      if(element.path==path){
+        return element
       }
     }
-    return false;
   }
+  return null;
+}
+function findMenuInfo(path){
+  if(config.showHeaderMenus){
+    return findItem(store.state.sideBar.headerMenus,path);
+  }else{
+    return findItem(store.state.sideBar.sideBarMenu,path);
+  }  
+}
+
+let noAuthPaths=['/login','/error404']   //不需要权限的页面
+
+
+//判断请求的页面是否在当前用户拥有的页面列表中
+function pageAuth(path){
+  // if(noAuthPaths.find(p=>p==path)){
+  //   return true
+  // }
+  if(findMenuInfo(path)==null){
+    return false
+  }
+  return true
+}
+//判断请求页是否存在
+function pageIsExist(routers,path){
+  if(findItem(routers,path)==null){
+    return false
+  }
+  return true
+}
+
+
+function routerHander(routes,to,from, next){
+  if(!pageIsExist(routes,to.path)){    //判断路径是否在路由中定义
+    next('/error404')
+    NProgress.done()
+  }else if(!pageAuth(to.path)){       //判断路径是否在当前用户拥有的页面列表中
+    abp.message.warn("您没有当前页面的访问权限！","警告")
+    //Message.error('您没有当前页面的访问权限！');
+    //页面没有访问权限直接回到前一个页面
+    next(`${from.path}`)
+    NProgress.done()
+  }else{
+    store.commit('SET_SELECTEDMENUSTATE',to)      
+    store.dispatch('addView', findMenuInfo(to.path))              
+    next()
+  }  
 }
 
 //登陆认证逻辑
 router.beforeEach((to, from, next) => {
-  NProgress.start();
-  // let token=tokenAuth.getToken();
-  // if (token == null) {   //未登陆情况下
-  let token=abp.auth.getToken();
-  if (!token) {   //未登陆情况下
-    if(to.path=="/login"){  //是请求login页则直接继续
+    NProgress.start();
+
+    //不受权限控制的页面,直接进入。eg 404页面
+    if(noAuthPaths.find(p=>p==to.path)){
       next()
-    }else{   // 否则全部重定向到登录页
-      next(`/login?redirect=${to.path}`) 
       NProgress.done()
-    }
-  }else{   //已登陆
-    if(store.state.sideBar.sideBarMenu.length==0){    //判断侧边菜单数据是否有
-        store.dispatch('getAllMenus').then(() => {    //第一次登陆或者是强制刷新浏览器重新请求
-            if(!pageAuth(to.path)){
-              abp.message.warn("您没有当前页面的访问权限！","警告")
-              //Message.error('您没有当前页面的访问权限！');
-              //页面没有访问权限直接回到前一个页面
-              next(`${from.path}`)
-              NProgress.done()
-            }else{
-              next()
-            }              
-        }).catch(() => {})      
     }else{
-      if(!pageAuth(to.path)){
-        abp.message.warn("您没有当前页面的访问权限！","警告")
-        //Message.error('您没有当前页面的访问权限！');
-        //页面没有访问权限直接回到前一个页面
-        next(`${from.path}`)
+      // let token=tokenAuth.getToken();
+      // if (token == null) {   //未登陆情况下
+      let token=abp.auth.getToken();
+      if (!token) {   //未登陆情况下
+        next(`/login?redirect=${to.path}`) 
         NProgress.done()
-      }else{
-        next()
+      }else{   //已登陆
+        if(store.state.sideBar.sideBarMenu.length==0){    //判断侧边菜单数据是否有
+            store.dispatch('getAllMenus').then(() => {    //第一次登陆或者是强制刷新浏览器重新请求
+              routerHander(router.options.routes,to, from, next)
+            }).catch(() => {
+              abp.message.error("获取应用程序菜单失败！","错误")
+            })      
+        }else{
+          routerHander(router.options.routes,to, from, next)
+        }
       }
-    }
-  }
-  
+    }     
 })
 
 router.afterEach(() => {

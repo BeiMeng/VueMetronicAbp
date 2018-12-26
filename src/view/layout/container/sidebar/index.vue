@@ -61,28 +61,6 @@
             let homePage=this.menus.find(p=>p.isHome);
             if(homePage!=undefined){
                this.$store.dispatch('addView', homePage)
-            }
-            //todo 找到默认的菜单叶节点
-            let defaultMain=this.menus.find(p=>p.default);
-            if(defaultMain!=undefined){
-                let defaultPage=loopFindDefaultPage(defaultMain);
-                this.$store.dispatch('addView', defaultPage)
-                this.$store.commit('SET_SELECTEDMENUSTATE',defaultPage)                
-                this.$router.push(defaultPage.path)  
-            }
-
-            
-            function loopFindDefaultPage(mn){
-                for (let index = 0; index < mn.children.length; index++) {
-                    const element = mn.children[index];
-                    if(element.default){
-                        if(element.hasOwnProperty('children')){
-                            return loopFindDefaultPage(element)
-                        }else{
-                            return element
-                        }
-                    }
-                }                
             }            
 
         }

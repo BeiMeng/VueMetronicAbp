@@ -46,7 +46,10 @@ export default {
     },
     beforeDestroy() {
         let ele=this.$parent.$refs['wrap'];
-        ele.removeEventListener('scroll', this.handleScroll);
+        if(ele){
+            ele.removeEventListener('scroll', this.handleScroll);
+        }
+        
     }
 };
 </script>

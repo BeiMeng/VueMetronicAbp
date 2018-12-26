@@ -118,7 +118,7 @@
                         if (latestView) {
                             console.log(latestView)
                             //this.$router.push(latestView)  todo 这个会根据name 寻找缓存的路由页面？
-                            this.$store.commit('SET_SELECTEDMENUSTATE', latestView)
+                            //this.$store.commit('SET_SELECTEDMENUSTATE', latestView)
                             this.$router.push(latestView.path)                             
                         } else {
                             this.$router.push('/')
@@ -182,7 +182,7 @@
                     ]                    
                 }
                 this.currentMenu = itemMenu;
-                this.$store.commit('SET_SELECTEDMENUSTATE', itemMenu)
+                //this.$store.commit('SET_SELECTEDMENUSTATE', itemMenu)
                 e.preventDefault();
                 this.$router.push(itemMenu.path)
             },
