@@ -23,7 +23,7 @@ const abpMixin={
             return abp.utils.formatString.apply(this, args);
         },
         isGranted(permissionName) {
-            return permission.isGranted(permissionName);
+            return _permission.isGranted(permissionName);
         },
         isGrantedAny(...permissions) {
             if (!permissions) {
