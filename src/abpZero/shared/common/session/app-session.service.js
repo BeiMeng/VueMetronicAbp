@@ -1,6 +1,6 @@
 import { AbpMultiTenancyService } from '@/abpZero/abp-vue-module/multi-tenancy/abp-multi-tenancy.service';
 import { SessionServiceProxy } from '@/abpZero/shared/service-proxies/SessionServiceProxy';
-
+// 此服务修改放到store 的 appSession 里
 let AppSessionService = class AppSessionService {
     constructor() {
         this._sessionService = new SessionServiceProxy();

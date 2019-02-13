@@ -40,9 +40,6 @@ let noAuthPaths=['/login','/error404']   //不需要权限的页面
 
 //判断请求的页面是否在当前用户拥有的页面列表中
 function pageAuth(path){
-  // if(noAuthPaths.find(p=>p==path)){
-  //   return true
-  // }
   if(findMenuInfo(path)==null){
     return false
   }
@@ -78,7 +75,7 @@ function routerHander(routes,to,from, next){
 router.beforeEach((to, from, next) => {
     NProgress.start();
 
-    //不受权限控制的页面,直接进入。eg 404页面
+    //不受权限控制的路由页面,直接进入。eg 404页面
     if(noAuthPaths.find(p=>p==to.path)){
       next()
       NProgress.done()

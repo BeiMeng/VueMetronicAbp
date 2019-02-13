@@ -132,25 +132,17 @@
                     }
                 )
                 .then(result=>{   
-                    console.log(result);            
+                    console.log(result); 
+                    console.log(AppConsts);           
                     //tokenAuth.setToken(response.result.accessToken)
                     let tokenExpireDate = this.rememberMe ? (new Date(new Date().getTime() + 1000 * result.expireInSeconds)) : undefined;
                     _tokenService.setToken(result.accessToken,tokenExpireDate);
                     _utilsService.setCookieValue(AppConsts.authorization.encrptedAuthTokenName,result.encryptedAccessToken,tokenExpireDate,abp.appPath)                 
-                    //location.reload(); 
-                    location.href="/";            
-                    //this.$router.push('/');                   
+                    location.href="/";  //登陆成功后，整个web程序重新加载                            
                 })
                 .catch(function (error) {
                     console.error(error);
-                });                
-
-
-                //重新登陆后,加载默认展示页,此功能暂时无
-                // if(this.redirect !=''){
-                    
-                //     return;
-                // }                
+                });                           
             }
         }
     }

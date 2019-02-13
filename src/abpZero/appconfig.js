@@ -1,7 +1,7 @@
 const appConfig=process.env.NODE_ENV === 'production' ?
 {
-    "remoteServiceBaseUrl": "http://www.ruianer.com:8008",
-    "appBaseUrl": "http://localhost:4200",
+    "remoteServiceBaseUrl": "http://localhost:22742",
+    "appBaseUrl": "http://localhost:3000",
     "localeMappings": [
       {
         "from": "pt-BR",
@@ -19,8 +19,8 @@ const appConfig=process.env.NODE_ENV === 'production' ?
 }
 :
 {
-    "remoteServiceBaseUrl": "http://www.ruianer.com:8008",
-    "appBaseUrl": "http://localhost:4200",
+    "remoteServiceBaseUrl": "http://localhost:22742",
+    "appBaseUrl": "http://localhost:3000",
     "localeMappings": [
       {
         "from": "pt-BR",

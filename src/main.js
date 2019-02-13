@@ -57,8 +57,6 @@ import appconfig from '@/abpZero/appconfig'
 
 import { AppAuthService } from '@/abpZero/app/shared/common/auth/app-auth.service';
 
-import { AppSessionService } from '@/abpZero/shared/common/session/app-session.service';
-
 import { UrlHelper } from '@/abpZero/shared/helpers/UrlHelper';
 
 import { AppPreBootstrap } from '@/abpZero/AppPreBootstrap';
