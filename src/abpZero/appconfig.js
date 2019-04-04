@@ -1,6 +1,6 @@
 const appConfig=process.env.NODE_ENV === 'production' ?
 {
-    "remoteServiceBaseUrl": "http://localhost:22742",
+    "remoteServiceBaseUrl": "http://localhost:54642",
     "appBaseUrl": "http://localhost:3000",
     "localeMappings": [
       {
@@ -19,7 +19,7 @@ const appConfig=process.env.NODE_ENV === 'production' ?
 }
 :
 {
-    "remoteServiceBaseUrl": "http://localhost:22742",
+    "remoteServiceBaseUrl": "http://localhost:54642",
     "appBaseUrl": "http://localhost:3000",
     "localeMappings": [
       {

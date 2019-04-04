@@ -2,7 +2,7 @@
 class Config {
     constructor() {
         this.isDebug = process && process.isDebug
-        this.serverUrl = 'http://localhost:22742/'
+        this.serverUrl = 'http://localhost:54642/'
         this.showHeaderMenus=true     //是否有顶部菜单
         this.showThemeSetting=true    //是否显示主题设置
         this.showNotifications=true    //是否显示通知

@@ -3,17 +3,17 @@ import { SessionServiceProxy } from '@/abpZero/shared/service-proxies/SessionSer
 let _sessionService=new SessionServiceProxy();
 const appSession = {
     state: {
-      application: null,
+      //application: null,
       user:null,
       tenant:null,
-      theme:null
+      //theme:null
     },
     mutations: {
         SET_APPSESSION(state, session) {
-            state.application = session.application
+            //state.application = session.application
             state.user = session.user;
             state.tenant = session.tenant;
-            state.theme = session.theme;             
+            //state.theme = session.theme;             
         },         
     },
     actions: {

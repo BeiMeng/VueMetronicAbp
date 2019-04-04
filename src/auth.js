@@ -71,6 +71,20 @@ function routerHander(routes,to,from, next){
   }  
 }
 
+function loadShowHomePage(){
+  if(config.showHeaderMenus){ //展示头部菜单则在头部菜单加载
+    let homePage=store.state.sideBar.headerMenus.find(p=>p.isHome);
+    if(homePage!=undefined){
+        store.dispatch('addView', homePage)
+    }
+  }else{
+    let homePage=store.state.sideBar.sideBarMenu.find(p=>p.isHome);
+    if(homePage!=undefined){
+       store.dispatch('addView', homePage)
+    }  
+  }
+}
+
 //登陆认证逻辑
 router.beforeEach((to, from, next) => {
     NProgress.start();
@@ -89,8 +103,12 @@ router.beforeEach((to, from, next) => {
       }else{   //已登陆
         if(store.state.sideBar.sideBarMenu.length==0){    //判断侧边菜单数据是否有
             store.dispatch('getAllMenus').then(() => {    //第一次登陆或者是强制刷新浏览器重新请求
+
+              loadShowHomePage();
+
               routerHander(router.options.routes,to, from, next)
-            }).catch(() => {
+            })
+            .catch(() => {
               abp.message.error("获取应用程序菜单失败！","错误")
             })      
         }else{

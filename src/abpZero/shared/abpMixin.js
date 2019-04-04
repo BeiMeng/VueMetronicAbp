@@ -1,7 +1,7 @@
 import { AppConsts } from '@/abpZero/shared/AppConsts';
 import { PermissionCheckerService } from '@/abpZero/abp-vue-module/auth/permission-checker.service';
 import { LocalizationService } from '@/abpZero/abp-vue-module/localization/localization.service';
-
+import * as moment from 'moment';
 let _localization=new LocalizationService();
 let _permission=new PermissionCheckerService();
 const abpMixin={
@@ -38,6 +38,15 @@ const abpMixin={
         },
         s(key) {
             return abp.setting.get(key);
+        },
+        timeFormat(time,foramt){
+            if(time==="" || time===null || time===undefined){
+                return time;
+            }
+            if(foramt===undefined){
+                foramt='YYYY-MM-DD HH:mm:ss';
+            }
+            return moment(time).format(foramt);
         }
     }
 }

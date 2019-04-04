@@ -62,10 +62,10 @@ export default {
     },
     mounted(){
         //加载首页
-        let homePage=this.headerMenus.find(p=>p.isHome);
-        if(homePage!=undefined){
-            this.$store.dispatch('addView', homePage)
-        }
+        // let homePage=this.headerMenus.find(p=>p.isHome);
+        // if(homePage!=undefined){
+        //     this.$store.dispatch('addView', homePage)
+        // }
         //显示默认模块       
         let defaultMenu=this.headerMenus.find(p=>p.default);
         if(defaultMenu!=undefined){
