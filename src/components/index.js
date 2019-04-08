@@ -3,9 +3,12 @@ import Vue from 'vue'
 import treeTable from './treeTable'
 import contextMenu from './contextMenu'
 
+import portletBoxed from './ui/portletBoxed'
+
 let items=[
     treeTable,
-    contextMenu
+    contextMenu,
+    portletBoxed
 ]
 
 let alias="";

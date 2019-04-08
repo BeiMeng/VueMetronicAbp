@@ -39,7 +39,7 @@ const abpMixin={
         s(key) {
             return abp.setting.get(key);
         },
-        timeFormat(time,foramt){
+        dateTimeFormat(time,foramt){
             if(time==="" || time===null || time===undefined){
                 return time;
             }

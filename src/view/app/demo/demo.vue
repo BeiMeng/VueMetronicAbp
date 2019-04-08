@@ -1,5 +1,5 @@
 <template>
-    <div id="demo">
+    <div id="demo"> 
         <!-- BEGIN PAGE HEAD-->
         <div class="page-head">
             <!-- BEGIN PAGE TITLE -->
@@ -1313,7 +1313,12 @@
 
 <script>
     export default {
-        name: "demo"
+        name: "demo",
+        data() {
+            return {
+
+            }
+        },
     }
 </script>
 

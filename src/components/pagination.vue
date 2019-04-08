@@ -4,9 +4,8 @@
 </template>
 
 <script>
-  import global from "@/config/global.js"
   export default {
-    name: "fullPagination",
+    name: "pagination",
     data() {
       return {
         totalCount: 0,
@@ -91,26 +90,27 @@
           let pagedParams={
             ...this.params,
             ...{
-              pageSize: this.pageSize,
-              pageIndex: this.pageIndex-1
+              MaxResultCount: this.pageSize,
+              SkipCount: this.pageIndex-1
             }            
           }
           try {
             let data = {}
             if (this.request.type == 'post') {
-              data = await httpCalc.postAsync(
-                this.request.url,
-                pagedParams
-              )
-            } else {
-              data = await httpCalc.getAsync(
-                this.request.url, pagedParams
-              )
+              httpClient.post(this.request.url,pagedParams)
+              .then(result=>{
+                this.totalCount = result.totalCount                   
+                this.$emit("paginationData", result.items) 
+              })
+            }else {
+              httpClient.get(this.request.url,{
+                params:pagedParams
+              })
+              .then(result=>{
+                this.totalCount = result.totalCount                   
+                this.$emit("paginationData", result.items) 
+              })
             }
-            this.totalCount = data.TotalCount                   
-            this.$emit("paginationData", data.Data) 
-
-
           } catch (e) {            
             console.log(e)
             this.$emit("paginationData", [])
@@ -134,9 +134,24 @@
                 this.request.url, this.params
               )
             }
-            this.totalCount = data.length
-            this.allData=data                   
-            this.$emit("paginationData", this.pagination(this.pageIndex,this.pageSize,this.allData)) 
+            if (this.request.type == 'post') {
+              httpClient.post(this.request.url,pagedParams)
+              .then(result=>{
+                this.totalCount = result.items.length
+                this.allData=result.items                   
+                this.$emit("paginationData", this.pagination(this.pageIndex,this.pageSize,this.allData))                 
+              })
+            }else {
+              httpClient.get(this.request.url,{
+                params:pagedParams
+              })
+              .then(result=>{
+                this.totalCount = result.items.length
+                this.allData=result.items                   
+                this.$emit("paginationData", this.pagination(this.pageIndex,this.pageSize,this.allData))     
+              })
+            }            
+
         } catch (e) {
           console.log(e)
           this.$message.error(e)
