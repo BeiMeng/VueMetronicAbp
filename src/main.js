@@ -68,19 +68,18 @@ import { AppPreBootstrap } from '@/abpZero/AppPreBootstrap';
     abp.ui.setBusy();
 
     AppPreBootstrap.run(appconfig, () => {
-        handleLogoutRequest(new AppAuthService());  
-        new Vue({
-          render: h => h(App),
-          router,
-          store,
-          mounted () {
-            this.$store.dispatch('init')  //初始化appSession
-            .then((result) => {               
-                abp.ui.clearBusy();         
-            }).catch(() => {}) 
-          }
-        }).$mount('#app')            
-        
+        handleLogoutRequest(new AppAuthService()); 
+        store.dispatch('init')  //初始化appSession
+        .then((result) => {               
+            new Vue({
+                render: h => h(App),
+                router,
+                store,
+                mounted () {
+                  abp.ui.clearBusy(); 
+                }
+            }).$mount('#app')       
+        }).catch(() => {})                            
     });
 
 })();

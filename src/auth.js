@@ -94,13 +94,13 @@ router.beforeEach((to, from, next) => {
       next()
       NProgress.done()
     }else{
-      // let token=tokenAuth.getToken();
-      // if (token == null) {   //未登陆情况下
-      let token=abp.auth.getToken();
-      if (!token) {   //未登陆情况下
+      if (!store.state.appSession.user) {   //通过判断user信息是否存在,确定用户是否登陆,解决token失效问题
         next(`/login?redirect=${to.path}`) 
-        NProgress.done()
-      }else{   //已登陆
+        NProgress.done();
+        return
+      }      
+      else{   //已登陆
+
         if(store.state.sideBar.sideBarMenu.length==0){    //判断侧边菜单数据是否有
             store.dispatch('getAllMenus').then(() => {    //第一次登陆或者是强制刷新浏览器重新请求
 
