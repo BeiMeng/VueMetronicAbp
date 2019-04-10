@@ -43,5 +43,23 @@ export default [
         resolve(require("@/view/app/demo/demoTask.vue"));
       });
     }
+  },
+  {
+    path: "/crudDemo",
+    name: "crudDemo",
+    component: resolve => {
+      require.ensure([], () => {
+        resolve(require("@/view/app/demo/crudDemo.vue"));
+      });
+    }
+  },
+  {
+    path: "/pagedCrudDemo",
+    name: "pagedCrudDemo",
+    component: resolve => {
+      require.ensure([], () => {
+        resolve(require("@/view/app/demo/pagedCrudDemo.vue"));
+      });
+    }
   }
 ];

@@ -91,7 +91,7 @@
             ...this.params,
             ...{
               MaxResultCount: this.pageSize,
-              SkipCount: this.pageIndex-1
+              SkipCount: (this.pageIndex-1)*this.pageSize
             }            
           }
           try {

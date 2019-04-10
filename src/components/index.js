@@ -5,10 +5,13 @@ import contextMenu from './contextMenu'
 
 import portletBoxed from './ui/portletBoxed'
 
+import crud from './crud'
+
 let items=[
     treeTable,
     contextMenu,
-    portletBoxed
+    portletBoxed,
+    crud
 ]
 
 let alias="";

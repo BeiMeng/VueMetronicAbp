@@ -157,6 +157,22 @@ function getMenus() {
           icon: "icon-diamond",
           path: "/demoTask",
           default: false
+        },
+        {
+          id: 44,
+          displayName: "crud组件示例",
+          name: "crudDemo",
+          icon: "icon-diamond",
+          path: "/crudDemo",
+          default: false
+        },
+        {
+          id: 45,
+          displayName: "crud组件分页示例",
+          name: "pagedCrudDemo",
+          icon: "icon-diamond",
+          path: "/pagedCrudDemo",
+          default: false
         }
       ]
     },

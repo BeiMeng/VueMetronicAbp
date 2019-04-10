@@ -146,6 +146,7 @@
         showQuery:true,
         sorting:'',
         keyId:'id',
+        entityName:'demoTask',
         paged:true,
         pageSize:10,
 
@@ -251,7 +252,7 @@
                 params: params
             })
             .then(result=>{
-                this.setFormInfo(result['demoTask']);
+                this.setFormInfo(result[this.entityName]);
             })
         },
         setFormInfo(result){
@@ -299,7 +300,7 @@
                     saveData[this.keyId]=this.selectDataId;
                 }
                 let data=new Object();
-                data['demoTask']=saveData;
+                data[this.entityName]=saveData;
                 //todo warp
                 httpClient.post('/api/services/app/DemoTask/CreateOrUpdateDemoTaskForOutput',data)
                 .then((result)=>{
