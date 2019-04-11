@@ -35,7 +35,7 @@ function findMenuInfo(path){
   }  
 }
 
-let noAuthPaths=['/login','/error404']   //不需要权限的页面
+let noAuthPaths=['/account/login','/error404']   //不需要权限的页面
 
 
 //判断请求的页面是否在当前用户拥有的页面列表中
@@ -95,7 +95,7 @@ router.beforeEach((to, from, next) => {
       NProgress.done()
     }else{
       if (!store.state.appSession.user) {   //通过判断user信息是否存在,确定用户是否登陆,解决token失效问题
-        next(`/login?redirect=${to.path}`) 
+        next(`/account/login?redirect=${to.path}`) 
         NProgress.done();
         return
       }      
@@ -105,6 +105,10 @@ router.beforeEach((to, from, next) => {
             store.dispatch('getAllMenus').then(() => {    //第一次登陆或者是强制刷新浏览器重新请求
 
               loadShowHomePage();
+              if(to.path=="/"){
+                next(`/zero`) 
+                return
+              }
 
               routerHander(router.options.routes,to, from, next)
             })

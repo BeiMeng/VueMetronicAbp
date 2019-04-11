@@ -2,15 +2,15 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 
-import auth from '../router/demo'
-import sys from '../router/sys'
+import demo from '../router/demo'
+import zero from '../router/zero'
 
 Vue.use(Router)
 
 let router = new Router({
   routes: [
     {
-      path: '/login',
+      path: '/account/login',
       name: 'login',
       component: resolve => {
           require.ensure([],
@@ -38,7 +38,7 @@ let router = new Router({
                   resolve(require('@/view/layout/index.vue'))
               })
       },
-      children:auth.concat(sys)
+      children:demo.concat(zero)
     }
   ]
 })

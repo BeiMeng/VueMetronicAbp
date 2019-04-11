@@ -5,7 +5,7 @@ AppConsts.userManagement = {
   defaultAdminUserName: 'admin'
 };
 AppConsts.localization = {
-  defaultLocalizationSourceName: 'Boss'
+  defaultLocalizationSourceName: 'SbsAbp'
 };
 AppConsts.authorization = {
   encrptedAuthTokenName: 'enc_auth_token'

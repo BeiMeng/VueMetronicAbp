@@ -15,7 +15,7 @@
 <template>
   <div class='pagedCrudDemo'>
       <crud :queryForm="queryForm" :mainForm="mainForm" :mainFormRule="mainFormRule" 
-      :apiUrl="apiUrl" :pageSize="20">
+      :apiUrl="apiUrl" :permissionNames="permissionNames" :pageSize="20">
           <template slot="queryItems">
                 <el-form-item label="任务名称">
                     <el-input v-model="queryForm.name" placeholder="名称关键字"></el-input>
@@ -97,6 +97,11 @@
                getById:'/api/services/app/DemoTask/GetDemoTaskForEdit',
                del:'/api/services/app/DemoTask/DeleteDemoTask',
                save:'/api/services/app/DemoTask/CreateOrUpdateDemoTaskForOutput'
+            },
+            permissionNames:{
+                add:'DemoPages.DemoTasks.Create',
+                edit:'DemoPages.DemoTasks.Edit',
+                del:'DemoPages.DemoTasks.Delete'
             }
         }
     },

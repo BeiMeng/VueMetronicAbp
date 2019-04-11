@@ -1,42 +1,33 @@
 export default [
   {
-    path: "/",
-    name: "helloWorld",
+    path: "/demo/demoOne",
+    name: "demoOne",
     component: resolve => {
       require.ensure([], () => {
-        resolve(require("@/view/app/demo/HelloWorld.vue"));
+        resolve(require("@/view/app/demo/demoOne.vue"));
       });
     }
   },
   {
-    path: "/demo",
-    name: "demo",
+    path: "/demo/demoTwo",
+    name: "demoTwo",
     component: resolve => {
       require.ensure([], () => {
-        resolve(require("@/view/app/demo/demo.vue"));
+        resolve(require("@/view/app/demo/demoTwo.vue"));
       });
     }
   },
   {
-    path: "/demo2",
-    name: "demo2",
+    path: "/demo/demoThree/:id",
+    name: "demoThree",
     component: resolve => {
       require.ensure([], () => {
-        resolve(require("@/view/app/demo/demo2.vue"));
+        resolve(require("@/view/app/demo/demoThree.vue"));
       });
     }
   },
   {
-    path: "/demo3/:id",
-    name: "demo3",
-    component: resolve => {
-      require.ensure([], () => {
-        resolve(require("@/view/app/demo/demo3.vue"));
-      });
-    }
-  },
-  {
-    path: "/demoTask",
+    path: "/demo/demoTask",
     name: "demoTask",
     component: resolve => {
       require.ensure([], () => {
@@ -45,7 +36,7 @@ export default [
     }
   },
   {
-    path: "/crudDemo",
+    path: "/demo/crudDemo",
     name: "crudDemo",
     component: resolve => {
       require.ensure([], () => {
@@ -54,7 +45,7 @@ export default [
     }
   },
   {
-    path: "/pagedCrudDemo",
+    path: "/demo/pagedCrudDemo",
     name: "pagedCrudDemo",
     component: resolve => {
       require.ensure([], () => {

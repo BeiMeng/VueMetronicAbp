@@ -1,5 +1,5 @@
 <template>
-  <div id="demo2" class="demo2">
+  <div  class="demoTwo">
         <div class="portlet light bordered">
             <div class="portlet-title">
                 <div class="caption">
@@ -42,7 +42,7 @@
 
 <script>
   export default {
-    name: 'demo2',
+    name: 'demoTwo',
     data() {
       return {
         msg: '啊啊啊啊啊啊啊啊',

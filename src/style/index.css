@@ -20,3 +20,18 @@
 .swal2-container {
   z-index: 100000 !important;
 }
+
+
+ /* 重新设置tableTree 的按钮样式 */
+.el-table__expand-icon>.el-icon {
+  color:#409EFF !important;
+  line-height: 8px;
+  font-size:18px; 
+  font-weight: bold;
+} 
+.el-table__expand-icon>.el-icon-arrow-right:before {
+  content: "\e60e";
+}
+.el-table__expand-icon--expanded {
+  transform-origin: 50% 50%;
+} 

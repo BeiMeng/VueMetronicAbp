@@ -9,7 +9,7 @@
     .crud{
         .rowEdit{
             font-size:18px;
-            color: grey-salt;
+            color: #409EFF;
             cursor:pointer;        
         }
         .rowDel{
@@ -36,18 +36,18 @@
         </portlet-boxed>
         <portlet-boxed icon="fa fa-bars" title="数据列表">
             <template slot="actions">
-                <el-button  icon="el-icon-circle-plus-outline" type="success" @click="add">新增</el-button>
+                <el-button v-if="isGranted(permissionNames.add)"  icon="el-icon-circle-plus-outline" type="success" @click="add">新增</el-button>
             </template>
             <template slot="body">
                 <el-table ref="tableList" :data="tableData" border style="width: 100%" 
                 @selection-change="handleSelectionChange" @row-dblclick="rowDbClick" @row-click="rowClick">
                     <el-table-column type="selection" width="55" header-align="center" align="center"></el-table-column>
                     <slot name="tableItems"></slot>                  
-                    <el-table-column fixed="right" label="操作" width="120" header-align="center" align="center">
+                    <el-table-column v-if="isGranted(permissionNames.edit) || isGranted(permissionNames.del)" fixed="right" label="操作" width="120" header-align="center" align="center">
                         <template slot-scope="scope">
                             <el-row>
-                                <i class="el-icon-edit rowEdit" title="编辑" @click="rowEdit(scope.row)"></i>
-                                <i class="el-icon-delete rowDel" title="删除" @click="rowDel(scope.row)"></i>
+                                <i v-if="isGranted(permissionNames.edit)" class="el-icon-edit rowEdit" title="编辑" @click="rowEdit(scope.row)"></i>
+                                <i v-if="isGranted(permissionNames.del)" class="el-icon-delete rowDel" title="删除" @click="rowDel(scope.row)"></i>
                             </el-row>
                         </template>
                     </el-table-column> 
@@ -140,7 +140,15 @@
                del:'',
                save:''
             }               
-        },                          
+        },
+        permissionNames:{
+            type: Object,
+            default: {
+               add:'',
+               edit:'',
+               del:''
+            }             
+        }                          
     },
     computed: {
         //（分页模式才有此计算属性）

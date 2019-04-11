@@ -1,14 +1,14 @@
 <template>
-  <div id="demo3">
+  <div class="demoThree">
       {{msg}}
-      demo3<el-button type="primary" @click="open">主要按钮</el-button>
+      demoThree<el-button type="primary" @click="open">主要按钮</el-button>
       <el-button type="primary" @click="gooo">带参路由</el-button>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'demo3',
+  name: 'demoThree',
   data(){
       return{
           msg:'啊哈哈哈'
