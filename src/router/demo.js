@@ -1,6 +1,6 @@
 export default [
   {
-    path: "/demo/demoOne",
+    path: "/app/demo/demoOne",
     name: "demoOne",
     component: resolve => {
       require.ensure([], () => {
@@ -9,7 +9,7 @@ export default [
     }
   },
   {
-    path: "/demo/demoTwo",
+    path: "/app/demo/demoTwo",
     name: "demoTwo",
     component: resolve => {
       require.ensure([], () => {
@@ -18,7 +18,7 @@ export default [
     }
   },
   {
-    path: "/demo/demoThree/:id",
+    path: "/app/demo/demoThree/:id",
     name: "demoThree",
     component: resolve => {
       require.ensure([], () => {
@@ -27,7 +27,7 @@ export default [
     }
   },
   {
-    path: "/demo/demoTask",
+    path: "/app/demo/demoTask",
     name: "demoTask",
     component: resolve => {
       require.ensure([], () => {
@@ -36,7 +36,7 @@ export default [
     }
   },
   {
-    path: "/demo/crudDemo",
+    path: "/app/demo/crudDemo",
     name: "crudDemo",
     component: resolve => {
       require.ensure([], () => {
@@ -45,7 +45,7 @@ export default [
     }
   },
   {
-    path: "/demo/pagedCrudDemo",
+    path: "/app/demo/pagedCrudDemo",
     name: "pagedCrudDemo",
     component: resolve => {
       require.ensure([], () => {

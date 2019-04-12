@@ -46,16 +46,20 @@ function pageAuth(path){
   return true
 }
 //判断请求页是否存在
-function pageIsExist(routers,path){
-  if(findItem(routers,path)==null){
-    return false
-  }
-  return true
-}
+// function pageIsExist(routers,path){
+//   if(findItem(routers,path)==null){
+//     return false
+//   }
+//   return true
+// }
 
 
 function routerHander(routes,to,from, next){
-  if(!pageIsExist(routes,to.path)){    //判断路径是否在路由中定义
+  // if(!pageIsExist(routes,to.path)){    //判断路径是否在路由中定义
+  //   next('/error404')
+  //   NProgress.done()
+  // }else 
+  if (to.matched.length === 0) {
     next('/error404')
     NProgress.done()
   }else if(!pageAuth(to.path)){       //判断路径是否在当前用户拥有的页面列表中
@@ -106,7 +110,7 @@ router.beforeEach((to, from, next) => {
 
               loadShowHomePage();
               if(to.path=="/"){
-                next(`/zero`) 
+                next('/app/dashboard') 
                 return
               }
 

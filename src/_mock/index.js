@@ -12,8 +12,8 @@ function getMenus() {
       displayName: "首页",
       name: "dashboard", //路由定义的name,缓存路由页面查找使用
       icon: "icon-diamond",
-      path: "/zero", //对应路由路径
-      showTab: true, //是否初始化显示到tab页标签上
+      path: "/app/dashboard", //对应路由路径
+      //showTab: true, //是否初始化显示到tab页标签上
       default: false, //是否是初始化默认显示页
       notClose: true, //是否在tab页标签上显示可关闭按钮
       isHome: true //是否首页,不进入header页签
@@ -31,7 +31,7 @@ function getMenus() {
           displayName: "测试任务",
           name: "demoTask",
           icon: "icon-diamond",
-          path: "/demo/demoTask",
+          path: "/app/demo/demoTask",
           default: false
         },
         {
@@ -39,7 +39,7 @@ function getMenus() {
           displayName: "crud示例",
           name: "crudDemo",
           icon: "icon-diamond",
-          path: "/demo/crudDemo",
+          path: "/app/demo/crudDemo",
           default: false
         }, 
         {
@@ -47,7 +47,7 @@ function getMenus() {
           displayName: "分页crud示例",
           name: "pagedCrudDemo",
           icon: "icon-diamond",
-          path: "/demo/pagedCrudDemo",
+          path: "/app/demo/pagedCrudDemo",
           default: false
         },                         
         {
@@ -55,7 +55,7 @@ function getMenus() {
           displayName: "示例1",
           name: "demoOne",
           icon: "icon-diamond",
-          path: "/demo/demoOne",
+          path: "/app/demo/demoOne",
           default: false //后端子菜单设置了默认项,同时将父菜单也设置为默认项
         },
         {
@@ -63,7 +63,7 @@ function getMenus() {
           displayName: "示例2",
           name: "demoTwo",
           icon: "icon-diamond",
-          path: "/demo/demoTwo",
+          path: "/app/demo/demoTwo",
           default: false //后端子菜单设置了默认项,同时将父菜单也设置为默认项
         },
         {
@@ -71,7 +71,7 @@ function getMenus() {
           displayName: "示例3",
           name: "demoThree",
           icon: "icon-diamond",
-          path: "/demo/demoThree/2",
+          path: "/app/demo/demoThree/2",
           default: false //后端子菜单设置了默认项,同时将父菜单也设置为默认项
         },        
       ]
@@ -89,7 +89,7 @@ function getMenus() {
           displayName: "菜单管理",
           name: "menusTree",
           icon: "icon-diamond",
-          path: "/zero/menusTree",
+          path: "/app/zero/menusTree",
           default: false //后端子菜单设置了默认项,同时将父菜单也设置为默认项
         },
         {
@@ -97,7 +97,7 @@ function getMenus() {
           displayName: "用户管理",
           name: "users",
           icon: "icon-diamond",
-          path: "/zero/users",
+          path: "/app/zero/users",
           default: false
         },
         {
@@ -105,7 +105,7 @@ function getMenus() {
           displayName: "角色管理",
           name: "roles",
           icon: "icon-diamond",
-          path: "/zero/roles",
+          path: "/app/zero/roles",
           default: false
         }
       ]

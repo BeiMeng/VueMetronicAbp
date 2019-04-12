@@ -7,6 +7,24 @@ import zero from '../router/zero'
 
 Vue.use(Router)
 
+
+
+let app=[
+  {
+    path: '/app/dashboard',
+    name: 'dashboard',
+    component: resolve => {
+        require.ensure([],
+            () => {
+                resolve(require('@/view/app/dashboard.vue'))
+            })
+    },
+  },  
+]
+
+
+
+
 let router = new Router({
   routes: [
     {
@@ -18,7 +36,7 @@ let router = new Router({
                   resolve(require('@/view/account/login.vue'))
               })
       }
-    }, 
+    },    
     {
       path: '/error404',
       name: 'error404',
@@ -28,9 +46,9 @@ let router = new Router({
                   resolve(require('@/view/error/404.vue'))
               })
       }
-    },          
+    },              
     {
-      path: '/',
+      path: '/app',
       //name: 'pageLayout',
       component: resolve => {
           require.ensure([],
@@ -38,7 +56,7 @@ let router = new Router({
                   resolve(require('@/view/layout/index.vue'))
               })
       },
-      children:demo.concat(zero)
+      children:demo.concat(zero).concat(app)
     }
   ]
 })

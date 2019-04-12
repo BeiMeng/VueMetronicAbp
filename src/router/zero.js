@@ -1,16 +1,6 @@
-export default [
+export default [  
     {
-        path: '/zero',
-        name: 'dashboard',
-        component: resolve => {
-            require.ensure([],
-                () => {
-                    resolve(require('@/view/app/zero/dashboard.vue'))
-                })
-        },
-    },    
-    {
-        path: '/zero/users',
+        path: '/app/zero/users',
         name: 'users',
         component: resolve => {
             require.ensure([],
@@ -20,7 +10,7 @@ export default [
         },
     },
     {
-        path: '/zero/roles',
+        path: '/app/zero/roles',
         name: 'roles',
         component: resolve => {
             require.ensure([],
@@ -30,7 +20,7 @@ export default [
         },
     },
     {
-        path: '/zero/menusTree',
+        path: '/app/zero/menusTree',
         name: 'menusTree',
         component: resolve => {
             require.ensure([],
