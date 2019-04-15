@@ -1,6 +1,5 @@
 import Vue from 'vue'
 
-import treeTable from './treeTable'
 import contextMenu from './contextMenu'
 
 import portletBoxed from './ui/portletBoxed'
@@ -8,7 +7,6 @@ import portletBoxed from './ui/portletBoxed'
 import crud from './crud'
 
 let items=[
-    treeTable,
     contextMenu,
     portletBoxed,
     crud
