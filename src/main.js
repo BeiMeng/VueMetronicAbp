@@ -33,7 +33,7 @@ window.httpClient=HttpClient
 import './style/index.css'
 
 //引入模拟数据
-import './_mock/index'
+//import './_mock/index'
 
 //引入入口vue文件
 import App from './App'

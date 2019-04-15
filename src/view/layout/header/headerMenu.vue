@@ -8,8 +8,8 @@
                     <li class="">
                         <i class="fa fa-desktop"></i><a href="#tab_15_2" data-toggle="tab" aria-expanded="true"> 会员管理 </a>
                     </li> -->
-                    <li v-for="menu in headerMenus" :key="menu.path" v-if="!menu.isHome" :class="menu.default?'active':''" @click="headerMenuClick(menu)">
-                        <i :class="menu.icon"></i><a data-toggle="tab" aria-expanded="false" class="headerMenuLink"> {{menu.displayName}} </a>
+                    <li v-for="menu in headerMenus" :key="menu.id" v-if="!menu.isHome" :class="menu.default?'active':''" @click="headerMenuClick(menu)">
+                        <i :class="menu.iconClass"></i><a data-toggle="tab" aria-expanded="false" class="headerMenuLink"> {{menu.displayName}} </a>
                     </li>                                                                                                                                                                                                                                                                
              </ul>
     </div>
@@ -38,7 +38,7 @@ export default {
             if(defaultPage!=undefined){
                 //this.$store.dispatch('addView', defaultPage)
                 //this.$store.commit('SET_SELECTEDMENUSTATE',defaultPage)                
-                this.$router.push(defaultPage.path) 
+                this.$router.push(defaultPage.url) 
             }            
             
         },
@@ -50,7 +50,7 @@ export default {
                 for (let index = 0; index < mn.children.length; index++) {
                     const element = mn.children[index];
                     if(element.default){
-                        if(element.hasOwnProperty('children')){
+                        if(element.children.length>0){
                             return loopFindDefaultPage(element)
                         }else{
                             return element

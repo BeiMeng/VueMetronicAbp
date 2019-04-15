@@ -12,7 +12,7 @@ import config from '@/config/index'
 function findItem(items,path){
   for (let index = 0; index < items.length; index++) {
     const element = items[index];
-    if(element.hasOwnProperty('children')){
+    if(element.children.length>0){
        let item=findItem(element.children,path);
        if(item!=null){
          return item
@@ -20,7 +20,7 @@ function findItem(items,path){
          continue;
        }
     }else{
-      if(element.path==path){
+      if(element.url==path){
         return element
       }
     }
@@ -66,7 +66,12 @@ function routerHander(routes,to,from, next){
     abp.message.warn("您没有当前页面的访问权限！","警告")
     //Message.error('您没有当前页面的访问权限！');
     //页面没有访问权限直接回到前一个页面
-    next(`${from.path}`)
+    if(to.path=="/app/dashboard"){
+      next(`/account/login?redirect=${to.path}`) 
+    }else{
+      next(`${from.path}`)
+    }
+
     NProgress.done()
   }else{
     store.commit('SET_SELECTEDMENUSTATE',to)      
@@ -116,9 +121,9 @@ router.beforeEach((to, from, next) => {
 
               routerHander(router.options.routes,to, from, next)
             })
-            .catch(() => {
-              abp.message.error("获取应用程序菜单失败！","错误")
-            })      
+            // .catch(() => {
+            //   abp.message.error("获取应用程序菜单失败！","错误")
+            // })      
         }else{
           routerHander(router.options.routes,to, from, next)
         }

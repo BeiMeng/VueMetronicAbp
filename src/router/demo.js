@@ -28,7 +28,7 @@ export default [
   },
   {
     path: "/app/demo/demoTask",
-    name: "demoTask",
+    name: "demoTasks",
     component: resolve => {
       require.ensure([], () => {
         resolve(require("@/view/app/demo/demoTask.vue"));

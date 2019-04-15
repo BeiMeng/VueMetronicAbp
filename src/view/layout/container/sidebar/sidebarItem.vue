@@ -1,13 +1,13 @@
 <template>
     <li :class="`nav-item ${item.default?'start active open':''}`" :key="item.displayName">
-        <a href="javascript:;" :class="`nav-link ${item.hasOwnProperty('children')?'nav-toggle':''}`" @click="clickLink(item,$event)">
-            <i :class="item.icon"></i>
+        <a href="javascript:;" :class="`nav-link ${item.children.length>0?'nav-toggle':''}`" @click="clickLink(item,$event)">
+            <i :class="item.iconClass"></i>
             <span class="title">{{item.displayName}}</span>
-            <span class="arrow" v-if="item.hasOwnProperty('children')"></span>
+            <span class="arrow" v-if="item.children.length>0"></span>
             <span class="selected" v-if="item.default"></span>
         </a>
         <ul class="sub-menu" :style="`display:${item.default?'block':''}`">
-            <template v-for="menu in item.children" v-if="item.hasOwnProperty('children')">
+            <template v-for="menu in item.children" v-if="item.children.length>0">
                 <sidebarItem :item="menu" :key="menu.displayName"></sidebarItem>
             </template>
         </ul>
@@ -31,7 +31,7 @@
         },
         methods:{
             clickLink(item,e){
-                if(!item.path){
+                if(!item.url){
                     return;
                 }
                 //限制打开过多的tab页，防止缓存过多
@@ -44,7 +44,7 @@
                     return                   
                 }                                                                             
                 e.preventDefault();
-                this.$router.push(item.path)
+                this.$router.push(item.url)
             }
         }
     }

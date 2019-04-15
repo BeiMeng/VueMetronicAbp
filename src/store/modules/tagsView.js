@@ -5,7 +5,7 @@ const tagsView = {
   },
   mutations: {
     ADD_VISITED_VIEW: (state, view) => {
-      if (state.visitedViews.some(v => v.path === view.path)) return
+      if (state.visitedViews.some(v => v.url === view.url)) return
       state.visitedViews.push(
         Object.assign({}, view, {
           displayName: view.displayName || 'no-name'
@@ -21,7 +21,7 @@ const tagsView = {
 
     DEL_VISITED_VIEW: (state, view) => {
       for (const [i, v] of state.visitedViews.entries()) {
-        if (v.path === view.path) {
+        if (v.url === view.url) {
           state.visitedViews.splice(i, 1)
           break
         }
@@ -45,7 +45,7 @@ const tagsView = {
         }
       }
       for (const [i, v] of state.visitedViews.entries()) {
-        if (v.path === view.path) {
+        if (v.url === view.url) {
           state.visitedViews=notCloseViews.concat(state.visitedViews.slice(i, i + 1));
           console.log(state.visitedViews)
           //state.visitedViews = state.visitedViews.slice(i, i + 1)

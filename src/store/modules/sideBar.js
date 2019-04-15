@@ -29,8 +29,11 @@ const sideBar = {
           for (let index = 0; index < state.headerMenus.length; index++) {
             const element = state.headerMenus[index];
             Vue.set(element,"default",false);
-            if(element.hasOwnProperty('children')){
+            if(element.children.length>0){
+              console.log(element.children);
+              console.log(itemMenu);
               let menu=loopFindDefaultPage(element.children,itemMenu)
+              console.log(menu);
               if(menu!=undefined){
                 state.sideBarMenu=element.children;
                 Vue.nextTick(()=>{
@@ -42,21 +45,21 @@ const sideBar = {
         }       
        }
        function loopFindDefaultPage(mn,itemMenu){
-        for (let index = 0; index < mn.length; index++) {
-            const element = mn[index];
-            if(!element.hasOwnProperty('children')){
-              if(element.name==itemMenu.name){
-                return element;
-              }
-            }else{
-              let val= loopFindDefaultPage(element.children,itemMenu)
-              if(val!=undefined){
-                return val
+          for (let index = 0; index < mn.length; index++) {
+              const element = mn[index];
+              if(!element.children.length>0){
+                if(element.name==itemMenu.name){
+                  return element;
+                }
               }else{
-                continue
+                let val= loopFindDefaultPage(element.children,itemMenu)
+                if(val!=undefined){
+                  return val
+                }else{
+                  continue
+                }
               }
-            }
-        }                
+          }                
        } 
 
 
@@ -73,7 +76,7 @@ const sideBar = {
       }
 
       function setDefault(element) {
-        if (element.hasOwnProperty('children')) {
+        if (element.children.length>0) {
           for (let m = 0; m < element.children.length; m++) {
             const item = element.children[m];
             // //选中的叶节点设置为选中状态(todo: 父级均设置为选中状态未实现,设置初始化状态默认显示页面,有小BUG)
@@ -130,7 +133,7 @@ const sideBar = {
                 break;
             } else {
                 //3.如果有子节点就开始找
-                if (obj.children) {
+                if (obj.children.length>0) {
                     //4.递归前，记录当前节点，作为parent 父亲
                     parentNode = obj;
                     //递归往下找

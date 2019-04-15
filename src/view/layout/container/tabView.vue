@@ -2,8 +2,8 @@
     <div id="tabView" class="tabView">
         <div class="tabbable-line" style="background-color:white">
             <ul class="nav nav-tabs " ref="tab">
-                <li v-for="tag in Array.from(visitedViews)" ref="tag" :class="isActive(tag)?'active tabLink':'tabLink'" :key="tag.path" @contextmenu.prevent.native="openMenu(tag,$event)">
-                    <i :class="`${tag.icon}`"></i>
+                <li v-for="tag in Array.from(visitedViews)" ref="tag" :class="isActive(tag)?'active tabLink':'tabLink'" :key="tag.url" @contextmenu.prevent.native="openMenu(tag,$event)">
+                    <i :class="`${tag.iconClass}`"></i>
                     <a href="#tab_15_2" data-toggle="tab" class="tabLink" aria-expanded="false" @click="clickLink(tag,$event)"> {{ tag.displayName }} </a>
                     <i class="el-message-box__close el-icon-close" v-show="isActive(tag) && !tag.notClose" @click.prevent.stop="closeSelectedTag(tag)" />
                 </li>
@@ -75,7 +75,7 @@
                 return false
             },
             isActive(route) {
-                return route.path === this.$route.path
+                return route.url === this.$route.path
             },
             // addViewTags() {
             //     const route = this.generateRoute()
@@ -104,8 +104,8 @@
                     this.$nextTick(() => {
                             this.$store.dispatch('addView', view)
                             // this.$store.commit('SET_SELECTEDMENUSTATE',view) 
-                            console.log(view.path)               
-                            this.$router.push(view.path)  //3 再重新加载到此页,因为缓存已经清除了，路由也有变化，所以页面会重新加载                                         
+                            console.log(view.url)               
+                            this.$router.push(view.url)  //3 再重新加载到此页,因为缓存已经清除了，路由也有变化，所以页面会重新加载                                         
                         })                    
                 })
             },
@@ -119,7 +119,7 @@
                             console.log(latestView)
                             //this.$router.push(latestView)  todo 这个会根据name 寻找缓存的路由页面？
                             //this.$store.commit('SET_SELECTEDMENUSTATE', latestView)
-                            this.$router.push(latestView.path)                             
+                            this.$router.push(latestView.url)                             
                         } else {
                             this.$router.push('/')
                         }
@@ -184,7 +184,7 @@
                 this.currentMenu = itemMenu;
                 //this.$store.commit('SET_SELECTEDMENUSTATE', itemMenu)
                 e.preventDefault();
-                this.$router.push(itemMenu.path)
+                this.$router.push(itemMenu.url)
             },
             handleIndexChange(title) {
                 switch (title) {
