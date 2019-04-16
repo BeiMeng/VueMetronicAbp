@@ -347,7 +347,7 @@
         delByServer(dataId){
             let params={};
             params[this.keyId]=dataId;                              
-            httpClient.delete(this.apiUrl.del,{
+            return httpClient.delete(this.apiUrl.del,{
                 params: params
             })
         }

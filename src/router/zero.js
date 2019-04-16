@@ -28,5 +28,15 @@ export default [
                     resolve(require('@/view/app/zero/menusTree.vue'))
                 })
         },
+    },
+    {
+        path: '/app/zero/themeSetting',
+        name: 'themeSetting',
+        component: resolve => {
+            require.ensure([],
+                () => {
+                    resolve(require('@/view/app/zero/themeSetting.vue'))
+                })
+        },
     }
 ]

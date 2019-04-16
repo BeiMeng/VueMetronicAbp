@@ -160,7 +160,7 @@ const sideBar = {
     getAllMenus({commit,state,rootState}) {
       console.log(arguments);
       return new Promise((resolve, reject) => {
-        _appNavigationServiceProxy.getMenu()
+        _appNavigationServiceProxy.getMenuTree()
           .then(result => {
             commit('SET_SIDEBARMENU',{
               menus:result,
