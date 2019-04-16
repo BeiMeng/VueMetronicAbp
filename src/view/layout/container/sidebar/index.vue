@@ -54,14 +54,7 @@
                 return this.$store.state.sideBar.sideBarMenu
             }
         },
-        mounted() {
-            // if(config.showHeaderMenus){ //展示头部菜单则在头部菜单加载
-            //     return
-            // }
-            // let homePage=this.menus.find(p=>p.isHome);
-            // if(homePage!=undefined){
-            //    this.$store.dispatch('addView', homePage)
-            // }            
+        mounted() {          
 
         }
     }

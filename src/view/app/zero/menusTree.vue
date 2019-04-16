@@ -7,55 +7,63 @@
 
 <template>
   <div class="menusTree">
-    <el-table :data="treeData" border row-key="id">
-        <el-table-column label="菜单名称" prop="displayName" width="200" header-align="center"></el-table-column>
-        <el-table-column label="路由名称" prop="name" width="150" header-align="center"></el-table-column>
-        <el-table-column label="路由路径" prop="url"  header-align="center"></el-table-column>
-        <el-table-column label="权限名称" prop="permissionName"  header-align="center"></el-table-column>
-        <el-table-column label="排序" prop="order"  header-align="center" align="center"></el-table-column>
-        <el-table-column label="显示图标" width="100" header-align="center" align="center">
-            <template slot-scope="scope">
-                <i :class="scope.row.iconClass"></i>
-            </template>
-        </el-table-column> 
-        <el-table-column label="分组样式" width="80" header-align="center" align="center">
-            <template slot-scope="scope">
-                <span v-if="scope.row.url!=null"></span>
-                <el-tag type="success" v-else-if="scope.row.group">是</el-tag>
-                <el-tag type="danger" v-else>否</el-tag>
-            </template>
-        </el-table-column>            
-        <el-table-column label="默认显示" width="80" header-align="center" align="center">
-            <template slot-scope="scope">
-                <span v-if="scope.row.url==null"></span>
-                <el-tag type="success" v-else-if="scope.row.default">是</el-tag>
-                <el-tag type="danger" v-else>否</el-tag>
-            </template>
-        </el-table-column> 
-        <el-table-column label="页签不可关闭" width="120" header-align="center" align="center">
-            <template slot-scope="scope">
-                <span v-if="scope.row.url==null"></span>
-                <el-tag type="success" v-else-if="scope.row.notClose">是</el-tag>
-                <el-tag type="danger" v-else>否</el-tag>
-            </template>
-        </el-table-column> 
-        <el-table-column label="首页" width="80" header-align="center" align="center">
-            <template slot-scope="scope">
-                <span v-if="scope.row.url==null"></span>
-                <el-tag type="success" v-else-if="scope.row.isHome">是</el-tag>
-                <el-tag type="danger" v-else>否</el-tag>
-            </template>
-        </el-table-column>                                                                               
-        <el-table-column label="操作" width="200" header-align="center" align="center">
-            <template slot-scope="scope">
-                <el-row>
-                    <el-button type="success" icon="el-icon-plus" circle title="添加子节点" v-if="!scope.row.isHome"></el-button>                            
-                    <el-button type="primary" icon="el-icon-edit" circle title="编辑" @click="editNode(scope.row.id)"></el-button>
-                    <el-button type="danger" icon="el-icon-delete" circle title="删除" v-if="!scope.row.isHome"></el-button>
-                </el-row>
-            </template>
-        </el-table-column>       
-    </el-table>    
+    <portlet-boxed icon="fa fa-bars" title="菜单列表">
+        <template slot="actions">
+            <el-button v-if="isGranted(permissionNames.add)"  icon="el-icon-circle-plus-outline" type="success" @click="add">新增业务模块</el-button>
+        </template>
+        <template slot="body">
+            <el-table :data="treeData" border row-key="id">
+                <el-table-column label="菜单名称" prop="displayName" width="200" header-align="center"></el-table-column>
+                <el-table-column label="路由名称" prop="name" width="150" header-align="center"></el-table-column>
+                <el-table-column label="路由路径" prop="url"  header-align="center"></el-table-column>
+                <el-table-column label="权限名称" prop="permissionName"  header-align="center"></el-table-column>
+                <el-table-column label="排序" prop="order"  header-align="center" align="center"></el-table-column>
+                <el-table-column label="显示图标" width="100" header-align="center" align="center">
+                    <template slot-scope="scope">
+                        <i :class="scope.row.iconClass"></i>
+                    </template>
+                </el-table-column> 
+                <el-table-column label="分组样式" width="80" header-align="center" align="center">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.url!=null"></span>
+                        <el-tag type="success" v-else-if="scope.row.group">是</el-tag>
+                        <el-tag type="danger" v-else>否</el-tag>
+                    </template>
+                </el-table-column>            
+                <el-table-column label="默认显示" width="80" header-align="center" align="center">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.url==null"></span>
+                        <el-tag type="success" v-else-if="scope.row.default">是</el-tag>
+                        <el-tag type="danger" v-else>否</el-tag>
+                    </template>
+                </el-table-column> 
+                <el-table-column label="页签不可关闭" width="120" header-align="center" align="center">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.url==null"></span>
+                        <el-tag type="success" v-else-if="scope.row.notClose">是</el-tag>
+                        <el-tag type="danger" v-else>否</el-tag>
+                    </template>
+                </el-table-column> 
+                <el-table-column label="首页" width="80" header-align="center" align="center">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.url==null"></span>
+                        <el-tag type="success" v-else-if="scope.row.isHome">是</el-tag>
+                        <el-tag type="danger" v-else>否</el-tag>
+                    </template>
+                </el-table-column>                                                                               
+                <el-table-column label="操作" width="200" header-align="center" align="center">
+                    <template slot-scope="scope">
+                        <el-row>
+                            <el-button type="success" icon="el-icon-plus" circle title="添加子节点" v-if="!scope.row.isHome"></el-button>                            
+                            <el-button type="primary" icon="el-icon-edit" circle title="编辑" @click="editNode(scope.row)"></el-button>
+                            <el-button type="danger" icon="el-icon-delete" circle title="删除" @click="delNode(scope.row)" v-if="!scope.row.isHome"></el-button>
+                        </el-row>
+                    </template>
+                </el-table-column>       
+            </el-table>   
+        </template>
+    </portlet-boxed>       
+ 
   </div>
 </template>
 
@@ -66,7 +74,12 @@
       name: 'menusTree',
       data() {
         return {         
-          treeData: []
+          treeData: [],
+          permissionNames:{
+            add:'DemoPages.DemoTasks.Create',
+            edit:'DemoPages.DemoTasks.Edit',
+            del:'DemoPages.DemoTasks.Delete'
+          }
         }
       },
       mounted(){
@@ -79,7 +92,14 @@
             })
       },    
       methods: {
-        editNode() {
+        add(){
+
+        },
+        editNode(row) {
+
+        },
+        delNode(row){
+
         }
       }
   }

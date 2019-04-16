@@ -18,7 +18,7 @@
                 <!-- BEGIN PAGE ACTIONS -->
                 <!-- DOC: Remove "hide" class to enable the page header actions -->
                 <div class="page-actions">
-                    <headerMenu v-if="showHeaderMenus"></headerMenu>
+                    <headerMenu v-if="theme.showHeaderMenus"></headerMenu>
                 </div>
                 <!-- END PAGE ACTIONS -->
                 <!-- BEGIN PAGE TOP -->
@@ -47,10 +47,15 @@
             themeSetting,
             topMenu
         },
+        computed: {
+            theme(){
+                return this.$store.state.appSession.theme
+            }
+        },         
         data(){
             return{
                 showThemeSetting:config.showThemeSetting,
-                showHeaderMenus:config.showHeaderMenus
+                //showHeaderMenus:config.showHeaderMenus
             }
         }
     }

@@ -6,14 +6,14 @@ const appSession = {
       //application: null,
       user:null,
       tenant:null,
-      //theme:null
+      theme:null
     },
     mutations: {
         SET_APPSESSION(state, session) {
             //state.application = session.application
             state.user = session.user;
             state.tenant = session.tenant;
-            //state.theme = session.theme;             
+            state.theme = session.theme;             
         },         
     },
     actions: {

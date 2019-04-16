@@ -6,9 +6,6 @@ import store from './store/index'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css' //这个样式必须引入
 
-import config from '@/config/index'
-
-
 function findItem(items,path){
   for (let index = 0; index < items.length; index++) {
     const element = items[index];
@@ -28,7 +25,7 @@ function findItem(items,path){
   return null;
 }
 function findMenuInfo(path){
-  if(config.showHeaderMenus){
+  if(store.state.appSession.theme.showHeaderMenus){
     return findItem(store.state.sideBar.headerMenus,path);
   }else{
     return findItem(store.state.sideBar.sideBarMenu,path);
@@ -45,21 +42,9 @@ function pageAuth(path){
   }
   return true
 }
-//判断请求页是否存在
-// function pageIsExist(routers,path){
-//   if(findItem(routers,path)==null){
-//     return false
-//   }
-//   return true
-// }
-
 
 function routerHander(routes,to,from, next){
-  // if(!pageIsExist(routes,to.path)){    //判断路径是否在路由中定义
-  //   next('/error404')
-  //   NProgress.done()
-  // }else 
-  if (to.matched.length === 0) {
+  if (to.matched.length === 0) {  //判断路径是否在路由中定义
     next('/error404')
     NProgress.done()
   }else if(!pageAuth(to.path)){       //判断路径是否在当前用户拥有的页面列表中
@@ -74,14 +59,15 @@ function routerHander(routes,to,from, next){
 
     NProgress.done()
   }else{
-    store.commit('SET_SELECTEDMENUSTATE',to)      
+    //store.commit('SET_SELECTEDMENUSTATE',to)
+    store.dispatch('setSelectedMenuState', to)      
     store.dispatch('addView', findMenuInfo(to.path))              
     next()
   }  
 }
 
 function loadShowHomePage(){
-  if(config.showHeaderMenus){ //展示头部菜单则在头部菜单加载
+  if(store.state.appSession.theme.showHeaderMenus){ //展示头部菜单则在头部菜单加载
     let homePage=store.state.sideBar.headerMenus.find(p=>p.isHome);
     if(homePage!=undefined){
         store.dispatch('addView', homePage)

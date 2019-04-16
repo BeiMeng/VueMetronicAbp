@@ -9,7 +9,7 @@
                 <!-- BEGIN CONTENT BODY -->
                 <div class="page-content" :style="styleObject">
                     <div class="all-page-header">
-                        <tabView v-if="showPageTab"></tabView>
+                        <tabView v-if="theme.showPageTab"></tabView>
                         <!-- BEGIN PAGE BREADCRUMB -->
                         <breadcrumb v-if="showBreadcrumb"></breadcrumb>
                         <!-- END PAGE BREADCRUMB -->  
@@ -59,12 +59,15 @@ export default {
   computed: {
     cachedViews() {
       return this.$store.state.tabView.cachedViews
+    },
+    theme(){
+        return this.$store.state.appSession.theme
     }
   },  
   data(){
       return{
           showBreadcrumb:config.showBreadcrumb,
-          showPageTab:config.showPageTab,
+          //showPageTab:this.theme.showPageTab,
           showQuickSideBar:config.showQuickSideBar,
           maxTabCount:config.maxTabCount,
           styleObject:{
