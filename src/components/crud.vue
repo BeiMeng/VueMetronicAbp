@@ -148,7 +148,23 @@
                edit:'',
                del:''
             }             
-        }                          
+        },
+        handlerAdd:{
+            type:Function,
+            default:()=>{}            
+        },
+        handlerEditData:{
+            type:Function,
+            default:(r)=>{return r}
+        },
+        handlerGoList:{
+            type:Function,
+            default:()=>{}               
+        },
+        handlerSaveData:{
+            type:Function,
+            default:(r)=>{return r}
+        },                                  
     },
     computed: {
         //（分页模式才有此计算属性）
@@ -251,6 +267,7 @@
             })                                    
         },        
         add(){
+            this.handlerAdd();            
             this.pageState='add';
             Object.keys(this.mainForm).forEach((k) => {
                 this.mainForm[k]=defaultForm[k];
@@ -265,13 +282,13 @@
 
             this.getByServer(dataId)
             .then(result=>{
-                this.setFormInfo(result[this.keyName]);
+                let handlerResult=this.handlerEditData(result);   
+                this.setFormInfo(handlerResult[this.keyName]);
             })
         },
         setFormInfo(result){
             let formData;
-            formData=result;            
-            //todo warp      
+            formData=result;    
             Object.keys(this.mainForm).forEach((k) => {
                 this.mainForm[k]=formData[k];
             });                   
@@ -311,9 +328,9 @@
                 let data=new Object();
                 data[this.keyName]=saveData;
                 //todo warp
+                let handlerData=this.handlerSaveData(data)
 
-
-                this.saveServer(data)
+                this.saveServer(handlerData)
                 .then((result)=>{
                     console.log(result);
                     this.$refs.tableList.clearSelection();
@@ -324,9 +341,10 @@
                 })                 
             });               
         },
-        goListPage(){            
+        goListPage(){    
+            this.handlerGoList();
+            this.$refs["mainForm"].clearValidate();                    
             this.pageState='list';
-            this.$refs["mainForm"].clearValidate();
         },
         //oper server
         getAllListByServer(queryParams){
