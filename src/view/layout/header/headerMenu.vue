@@ -67,10 +67,10 @@ export default {
         //     this.$store.dispatch('addView', homePage)
         // }
         //显示默认模块       
-        let defaultMenu=this.headerMenus.find(p=>p.default);
-        if(defaultMenu!=undefined){
-            this.$store.dispatch('setSideBarMenu', defaultMenu.children)         
-        }        
+        // let defaultMenu=this.headerMenus.find(p=>p.default);
+        // if(defaultMenu!=undefined){
+        //     this.$store.dispatch('setSideBarMenu', defaultMenu.children)         
+        // }        
     }  
 }
 </script>

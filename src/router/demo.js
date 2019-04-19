@@ -17,15 +17,15 @@ export default [
   //     });
   //   }
   // },
-  // {
-  //   path: "/app/demo/demoThree/:id",
-  //   name: "demoThree",
-  //   component: resolve => {
-  //     require.ensure([], () => {
-  //       resolve(require("@/view/app/demo/demoThree.vue"));
-  //     });
-  //   }
-  // },
+  {
+    path: "/app/demo/demoThree/:id",
+    name: "demoThree",
+    component: resolve => {
+      require.ensure([], () => {
+        resolve(require("@/view/app/demo/demoThree.vue"));
+      });
+    }
+  },
   {
     path: "/app/demo/demoTask",
     name: "demoTasks",

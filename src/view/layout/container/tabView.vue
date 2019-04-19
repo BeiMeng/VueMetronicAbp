@@ -75,7 +75,7 @@
                 return false
             },
             isActive(route) {
-                return route.url === this.$route.path
+                return route.name === this.$route.name
             },
             // addViewTags() {
             //     const route = this.generateRoute()

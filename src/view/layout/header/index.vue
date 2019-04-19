@@ -5,8 +5,9 @@
             <div class="page-header-inner ">
                 <!-- BEGIN LOGO -->
                 <div class="page-logo">
-                    <a href="index.html">
-                        <img src="../../../assets/layouts/layout4/img/logo-light.png" alt="logo" class="logo-default" /> </a>
+                    <a @click="toDashboard">
+                        <img src="../../../assets/layouts/layout4/img/logo-light.png" alt="logo" class="logo-default" /> 
+                    </a>
                     <div class="menu-toggler sidebar-toggler">
                         <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
                     </div>
@@ -57,7 +58,12 @@
                 showThemeSetting:config.showThemeSetting,
                 //showHeaderMenus:config.showHeaderMenus
             }
-        }
+        },
+        methods: {
+            toDashboard() {
+                 this.$router.push('/');
+            }
+        },
     }
 </script>
 

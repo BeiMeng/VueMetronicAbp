@@ -6,29 +6,29 @@ import store from './store/index'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css' //这个样式必须引入
 
-function findItem(items,path){
+function findItem(items,name){
   for (let index = 0; index < items.length; index++) {
     const element = items[index];
     if(element.children.length>0){
-       let item=findItem(element.children,path);
+       let item=findItem(element.children,name);
        if(item!=null){
          return item
        }else{
          continue;
        }
     }else{
-      if(element.url==path){
+      if(element.name==name){
         return element
       }
     }
   }
   return null;
 }
-function findMenuInfo(path){
+function findMenuInfo(name){
   if(store.state.appSession.theme.showHeaderMenus){
-    return findItem(store.state.sideBar.headerMenus,path);
+    return findItem(store.state.sideBar.headerMenus,name);
   }else{
-    return findItem(store.state.sideBar.sideBarMenu,path);
+    return findItem(store.state.sideBar.sideBarMenu,name);
   }  
 }
 
@@ -36,8 +36,8 @@ let noAuthPaths=['/account/login','/error404']   //不需要权限的页面
 
 
 //判断请求的页面是否在当前用户拥有的页面列表中
-function pageAuth(path){
-  if(findMenuInfo(path)==null){
+function pageAuth(name){
+  if(findMenuInfo(name)==null){
     return false
   }
   return true
@@ -47,11 +47,11 @@ function routerHander(routes,to,from, next){
   if (to.matched.length === 0) {  //判断路径是否在路由中定义
     next('/error404')
     NProgress.done()
-  }else if(!pageAuth(to.path)){       //判断路径是否在当前用户拥有的页面列表中
+  }else if(!pageAuth(to.name)){       //判断路径是否在当前用户拥有的页面列表中
     abp.message.warn("您没有当前页面的访问权限！","警告")
     //Message.error('您没有当前页面的访问权限！');
     //页面没有访问权限直接回到前一个页面
-    if(to.path=="/app/dashboard"){
+    if(to.path=="/"){
       next(`/account/login?redirect=${to.path}`) 
     }else{
       next(`${from.path}`)
@@ -61,7 +61,7 @@ function routerHander(routes,to,from, next){
   }else{
     //store.commit('SET_SELECTEDMENUSTATE',to)
     store.dispatch('setSelectedMenuState', to)      
-    store.dispatch('addView', findMenuInfo(to.path))              
+    store.dispatch('addView', findMenuInfo(to.name))              
     next()
   }  
 }
@@ -79,9 +79,28 @@ function loadShowHomePage(){
     }  
   }
 }
+function loadDefaultPage(){
+  let sideBarMenu=store.state.sideBar.sideBarMenu;
+  findDefaultPageAndLoad(sideBarMenu);
+
+  function findDefaultPageAndLoad(menus){
+    for (let index = 0; index < sideBarMenu.length; index++) {
+      const element = sideBarMenu[index];
+      if(element.default){
+        if(element.children.length==0){
+          store.dispatch('addView', element);
+          break;
+        }else{
+          findDefaultPageAndLoad(element.children);
+        }
+      }
+    }
+  }
+}
 
 //登陆认证逻辑
 router.beforeEach((to, from, next) => {
+    console.log(to);
     NProgress.start();
 
     //不受权限控制的路由页面,直接进入。eg 404页面
@@ -97,19 +116,8 @@ router.beforeEach((to, from, next) => {
       else{   //已登陆
 
         if(store.state.sideBar.sideBarMenu.length==0){    //判断侧边菜单数据是否有
-            store.dispatch('getAllMenus').then(() => {    //第一次登陆或者是强制刷新浏览器重新请求
-
-              loadShowHomePage();
-              if(to.path=="/"){
-                next('/app/dashboard') 
-                return
-              }
-
-              routerHander(router.options.routes,to, from, next)
-            })
-            // .catch(() => {
-            //   abp.message.error("获取应用程序菜单失败！","错误")
-            // })      
+            store.dispatch('getAllMenus');            
+            routerHander(router.options.routes,to, from, next)                      
         }else{
           routerHander(router.options.routes,to, from, next)
         }

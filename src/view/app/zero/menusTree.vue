@@ -31,10 +31,9 @@
                             <el-tag type="danger" v-else>否</el-tag>
                         </template>
                     </el-table-column>            
-                    <el-table-column label="默认显示" width="80" header-align="center" align="center">
+                    <el-table-column label="默认选中" width="80" header-align="center" align="center">
                         <template slot-scope="scope">
-                            <span v-if="scope.row.url==null"></span>
-                            <el-tag type="success" v-else-if="scope.row.default">是</el-tag>
+                            <el-tag type="success" v-if="scope.row.default">是</el-tag>
                             <el-tag type="danger" v-else>否</el-tag>
                         </template>
                     </el-table-column> 
@@ -111,7 +110,7 @@
                     </el-row>
                      <el-row :gutter="20">
                          <el-col :span="6" :offset="2">
-                             <el-form-item label="默认显示">
+                             <el-form-item label="默认选中">
                                     <el-switch v-model="mainForm.default"  active-text='否' inactive-text='是' :active-value='false' :inactive-value='true'></el-switch>
                              </el-form-item>
                          </el-col>

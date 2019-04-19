@@ -71,7 +71,7 @@
                         </el-form-item>   
                     </div> 
                   </el-tab-pane>
-                  <el-tab-pane label="权限" v-if="isGranted(permissionNames.permission)" name="permission">
+                  <el-tab-pane label="权限" name="permission">
                         <el-tree ref="permissionTree" node-key="name" class="permission-tree" :data="permissionTreeData" :props="defaultProps" 
                         show-checkbox :default-expanded-keys="defaultExpandedKeys"></el-tree>
                   </el-tab-pane>
@@ -103,6 +103,7 @@
                 children: 'children',
                 label: 'displayName'                
             },
+            showPermission:true,
             mainForm:{
                 displayName:'',
                 isDefault:false
@@ -122,8 +123,7 @@
             permissionNames:{
                 add:'ZeroPages.Roles.Create',
                 edit:'ZeroPages.Roles.Edit',
-                del:'ZeroPages.Roles.Delete',
-                permission:'ZeroPages.Roles.Permission'
+                del:'ZeroPages.Roles.Delete'
             }
         }
     },
@@ -140,8 +140,10 @@
             this.activeName="role";
         },
         handlerSaveData(data){
-            let selectedKeys=this.$refs.permissionTree.getCheckedKeys();
-            data.grantedPermissionNames=selectedKeys;
+            let checkedNodes=this.$refs.permissionTree.getCheckedNodes(false,true);
+            data.grantedPermissionNames=checkedNodes.map((p)=>{
+                return p.name
+            });
             return data;
         }
     },

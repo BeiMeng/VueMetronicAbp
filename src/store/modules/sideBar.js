@@ -1,7 +1,5 @@
 import Vue from 'vue'
 //import config from '../../config/index'
-import { AppNavigationServiceProxy } from '@/abpZero/shared/service-proxies/AppNavigationServiceProxy';
-let _appNavigationServiceProxy=new AppNavigationServiceProxy();
 const sideBar = {
   state: {
     sideBarMenu: [],
@@ -11,6 +9,10 @@ const sideBar = {
     SET_SIDEBARMENU(state, payload) {
       if(payload.showHeaderMenus){
         state.headerMenus=payload.menus
+        let defaultMenu=payload.menus.find(p=>p.default);
+        if(defaultMenu!=undefined){
+            state.sideBarMenu =defaultMenu.children    
+        }           
       }else{
         state.sideBarMenu = payload.menus
       }
@@ -21,26 +23,26 @@ const sideBar = {
     SET_SELECTEDMENUSTATE(state, payload) {
 
        //有顶部菜单且有tab页签时，实现切换tab页签，跳转到对应的顶部菜单以及侧边菜单的切换
-       if(payload.showHeaderMenus && payload.itemMenu.path !="/app/dashboard"){
-        //1.判断此tab页是否在state.sideBarMenu 中
-        let menu=loopFindDefaultPage(state.sideBarMenu,payload.itemMenu)
-        //不在,在state.headerMenus 找到   
-        if(menu==undefined){
-          for (let index = 0; index < state.headerMenus.length; index++) {
-            const element = state.headerMenus[index];
-            Vue.set(element,"default",false);
-            if(element.children.length>0){
-              let menu=loopFindDefaultPage(element.children,payload.itemMenu)
-              console.log(menu);
-              if(menu!=undefined){
-                state.sideBarMenu=element.children;
-                Vue.nextTick(()=>{
-                  Vue.set(element,"default",true);
-                })
+       if(payload.showHeaderMenus && payload.itemMenu.name !="dashboard"){
+          //1.判断此tab页是否在state.sideBarMenu 中
+          let menu=loopFindDefaultPage(state.sideBarMenu,payload.itemMenu)
+          //不在,在state.headerMenus 找到   
+          if(menu==undefined){
+            for (let index = 0; index < state.headerMenus.length; index++) {
+              const element = state.headerMenus[index];
+              Vue.set(element,"default",false);
+              if(element.children.length>0){
+                let menu=loopFindDefaultPage(element.children,payload.itemMenu)
+                console.log(menu);
+                if(menu!=undefined){
+                  state.sideBarMenu=element.children;
+                  Vue.nextTick(()=>{
+                    Vue.set(element,"default",true);
+                  })
+                }
               }
             }
-          }
-        }       
+          }       
        }
        function loopFindDefaultPage(mn,itemMenu){
           for (let index = 0; index < mn.length; index++) {
@@ -60,8 +62,10 @@ const sideBar = {
           }                
        } 
 
-
-
+      if(payload.showHeaderMenus && payload.itemMenu.name =="dashboard"){
+        return;
+      }
+      
       //先全部设置为未选中状态      
       for (let index = 0; index < state.sideBarMenu.length; index++) {
         const element = state.sideBarMenu[index];
@@ -159,18 +163,41 @@ const sideBar = {
   actions: {
     getAllMenus({commit,state,rootState}) {
       console.log(arguments);
-      return new Promise((resolve, reject) => {
-        _appNavigationServiceProxy.getMenuTree()
-          .then(result => {
-            commit('SET_SIDEBARMENU',{
-              menus:result,
-              showHeaderMenus:rootState.appSession.theme.showHeaderMenus
-            })
-            resolve()
-          })
-          .catch(error => {
-            reject(error)
-          })
+      console.log(abp.nav.menus.App.items);
+      let navs=abp.nav.menus.App.items;
+
+      let menus=getMenus(navs);
+      console.log(menus);
+      function getMenus(navs){
+        let menus=new Array();
+        for (let index = 0; index < navs.length; index++) {
+          const element = navs[index];
+          let menu={
+            displayName:element.displayName,
+            name:element.name,
+            url:element.url,
+            iconClass:element.icon,
+            order:element.order,
+            id:element.customData.id,
+            permissionName:element.customData.permissionName,
+            group:element.customData.group,
+            isHome:element.customData.isHome,
+            default:element.customData.default,
+            notClose:element.customData.notClose,
+            children:[]
+          };
+          if(element.items.length>0){
+              let menuChildren=getMenus(element.items);
+              menu.children=menuChildren;
+          }
+          menus.push(menu);
+        }
+        return menus;
+      }
+
+      commit('SET_SIDEBARMENU',{
+        menus:menus,
+        showHeaderMenus:rootState.appSession.theme.showHeaderMenus
       })
     },
     setSideBarMenu({commit,state},headerMenuOfSideBarMenus) {
