@@ -6,10 +6,15 @@ import portletBoxed from './ui/portletBoxed'
 
 import crud from './crud'
 
+import metroTabs from './ui/metroTabs/metroTabs'
+import metroTabItem from './ui/metroTabs/metroTabItem'
+
 let items=[
     contextMenu,
     portletBoxed,
-    crud
+    crud,
+    metroTabs,
+    metroTabItem
 ]
 
 let alias="";

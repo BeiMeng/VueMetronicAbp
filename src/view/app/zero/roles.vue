@@ -72,8 +72,7 @@
                     </div> 
                   </el-tab-pane>
                   <el-tab-pane label="权限" name="permission">
-                        <el-tree ref="permissionTree" node-key="name" class="permission-tree" :data="permissionTreeData" :props="defaultProps" 
-                        show-checkbox :default-expanded-keys="defaultExpandedKeys"></el-tree>
+                        <permission-setting ref="permissionSetting"></permission-setting>
                   </el-tab-pane>
                 </el-tabs>               
           </template>
@@ -82,28 +81,17 @@
 </template>
 
 <script> 
-
+  import permissionSetting from './components/permissionSetting'
   export default {
     name:'roles',
     components: {
-        
+        permissionSetting
     },
     mounted(){
-        httpClient.get("/api/services/app/Common/GetAllPermissionTree")
-        .then(result => { 
-            this.permissionTreeData.push(result)                 
-        })
     },
     data() {
         return {
             activeName:'role',
-            defaultExpandedKeys:[],
-            permissionTreeData:[],
-            defaultProps:{
-                children: 'children',
-                label: 'displayName'                
-            },
-            showPermission:true,
             mainForm:{
                 displayName:'',
                 isDefault:false
@@ -129,21 +117,18 @@
     },
     methods: {
         handlerAdd(){
-            this.$refs.permissionTree.setCheckedKeys([]);
+            this.$refs.permissionSetting.init();
         },
         handlerEditData(result) {
-            this.$refs.permissionTree.setCheckedKeys(result.grantedPermissionNames);
-            this.defaultExpandedKeys=result.grantedPermissionNames;
+            this.$refs.permissionSetting.init();
+            this.$refs.permissionSetting.setGrantedPermissions(result.grantedPermissionNames);
             return result;
         },
         handlerGoList(){
             this.activeName="role";
         },
         handlerSaveData(data){
-            let checkedNodes=this.$refs.permissionTree.getCheckedNodes(false,true);
-            data.grantedPermissionNames=checkedNodes.map((p)=>{
-                return p.name
-            });
+            data.grantedPermissionNames=this.$refs.permissionSetting.getPermissions();
             return data;
         }
     },
