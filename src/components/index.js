@@ -9,12 +9,15 @@ import crud from './crud'
 import metroTabs from './ui/metroTabs/metroTabs'
 import metroTabItem from './ui/metroTabs/metroTabItem'
 
+import iconList from './iconList'
+
 let items=[
     contextMenu,
     portletBoxed,
     crud,
     metroTabs,
-    metroTabItem
+    metroTabItem,
+    iconList
 ]
 
 let alias="";

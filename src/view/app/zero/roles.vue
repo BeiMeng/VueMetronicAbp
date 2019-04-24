@@ -38,7 +38,7 @@
   <div class='roles'>
       <crud :showQuery="false" :mainForm="mainForm" :mainFormRule="mainFormRule" 
       :apiUrl="apiUrl" :permissionNames="permissionNames" :paged="false" 
-      :handlerAdd="handlerAdd" :handlerEditData="handlerEditData" :handlerGoList="handlerGoList" :handlerSaveData="handlerSaveData">
+      :handlerAddData="handlerAddData" :handlerEditData="handlerEditData" :handlerGoList="handlerGoList" :handlerSaveData="handlerSaveData">
           <template slot="tableItems">
                 <el-table-column label="角色名称" prop="displayName" header-align="center"></el-table-column> 
                 <el-table-column label="系统"  header-align="center" align="center" width="120">
@@ -116,8 +116,9 @@
         }
     },
     methods: {
-        handlerAdd(){
+        handlerAddData(result){
             this.$refs.permissionSetting.init();
+            return result;
         },
         handlerEditData(result) {
             this.$refs.permissionSetting.init();

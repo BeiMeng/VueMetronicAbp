@@ -149,9 +149,9 @@
                del:''
             }             
         },
-        handlerAdd:{
+        handlerAddData:{
             type:Function,
-            default:()=>{}            
+            default:()=>{return r}            
         },
         handlerEditData:{
             type:Function,
@@ -266,12 +266,12 @@
                 }  
             })                                    
         },        
-        add(){
-            this.handlerAdd();            
+        add(){       
             this.pageState='add';
             Object.keys(this.mainForm).forEach((k) => {
                 this.mainForm[k]=defaultForm[k];
-            });              
+            });             
+            this.setFormInfoById(null);             
         },
         rowEdit(row){
             this.pageState="edit";
@@ -282,7 +282,12 @@
 
             this.getByServer(dataId)
             .then(result=>{
-                let handlerResult=this.handlerEditData(result);   
+                let handlerResult;
+                if(this.pageState=='add'){
+                    handlerResult=this.handlerAddData(result);
+                }else if(this.pageState=='edit'){
+                    handlerResult=this.handlerEditData(result);
+                } 
                 this.setFormInfo(handlerResult[this.keyName]);
             })
         },

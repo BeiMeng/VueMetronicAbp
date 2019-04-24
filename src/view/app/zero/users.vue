@@ -42,7 +42,7 @@
   <div class='users'>
       <crud v-show="!showPermission" :showQuery="true" :queryForm="queryForm" :mainForm="mainForm" :mainFormRule="mainFormRule" 
       :apiUrl="apiUrl" :permissionNames="permissionNames" :paged="true" 
-      :handlerAdd="handlerAdd" :handlerEditData="handlerEditData" :handlerGoList="handlerGoList" :handlerSaveData="handlerSaveData">
+      :handlerAddData="handlerAddData" :handlerEditData="handlerEditData" :handlerGoList="handlerGoList" :handlerSaveData="handlerSaveData">
           <template slot="queryItems">
                 <el-form-item label="模糊搜索">
                     <el-input v-model="queryForm.filter" placeholder=""></el-input>
@@ -191,8 +191,9 @@
         }
     },
     methods: {
-        handlerAdd(){
-            this.selectedRoleList=[];
+        handlerAddData(result){
+            this.selectedRoleList=result.roles.map(p=>{return p.name});
+            return result;
         },
         handlerEditData(result) {
             this.selectedRoleList=result.roles.map(p=>{return p.name});

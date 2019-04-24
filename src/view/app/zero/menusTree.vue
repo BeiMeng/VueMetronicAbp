@@ -8,7 +8,7 @@
 <template>
   <div class="menusTree">
       <div v-show="pageState=='list'">
-        <portlet-boxed icon="fa fa-bars" title="菜单列表">
+        <portlet-boxed icon="fa fa-bars" title="菜单列表(仅系统管理员和开发人员可见及配置)">
             <template slot="actions">
                 <el-button v-if="isGranted(permissionNames.add)"  icon="el-icon-circle-plus-outline" type="success" @click="add(null)">新增业务模块</el-button>
             </template>
@@ -65,7 +65,7 @@
         </portlet-boxed> 
       </div>
     <div v-show="pageState!='list'">
-        <portlet-boxed icon="fa fa-tasks" title="详细信息">
+        <portlet-boxed icon="fa fa-tasks" title="详细信息(菜单的结构需与后端权限配置结构保持一致)">
             <template slot="actions">
                 <el-button  icon="el-icon-back" @click="goListPage">返回</el-button>
                 <el-button  icon="el-icon-document" type="primary" @click="save" :disabled="formDisabled">保存</el-button>
@@ -78,65 +78,85 @@
                                  <el-input v-model="mainForm.displayName" placeholder="显示名称"></el-input>
                              </el-form-item>
                          </el-col>
-                          <el-col :span="6" :offset="2">
-                              <el-form-item label="路由名称">
-                                  <el-input v-model="mainForm.name" placeholder="路由名称"></el-input>
-                              </el-form-item>
-                          </el-col>
-                    </el-row>   
-                     <el-row :gutter="20">
                          <el-col :span="6" :offset="2">
+                             <el-form-item label="显示图标" prop="iconClass">
+                                 <el-input v-model="mainForm.iconClass" placeholder="显示图标">
+                                      <template slot="append">
+                                          <el-button type="success" @click="selectIcon">选择图标</el-button>
+                                      </template>
+                                 </el-input>
+                             </el-form-item>
+                         </el-col>                          
+                    </el-row>   
+                     <el-row :gutter="20">                        
+                         <el-col :span="6" :offset="2">                                                     
                              <el-form-item label="路由地址">
-                                 <el-input v-model="mainForm.url" placeholder="路由地址"></el-input>
+                                 <el-select v-model="mainForm.url" placeholder="" style="width:100%" @change="urlChange" clearable>
+                                   <el-option v-for="item in urlList" :key="item.key" :label="item.path" :value="item.path"></el-option>
+                                 </el-select>
                              </el-form-item>
                          </el-col>
-                          <el-col :span="6" :offset="2">
-                              <el-form-item label="权限名称">
-                                  <el-input v-model="mainForm.permissionName" placeholder="权限名称"></el-input>
+                           <el-col :span="6" :offset="2">
+                              <el-form-item label="路由名称" prop="name">
+                                  <el-input v-model="mainForm.name" placeholder="路由名称" :disabled="mainForm.url!=null"></el-input>
                               </el-form-item>
-                          </el-col>
+                          </el-col>                          
                     </el-row>
                      <el-row :gutter="20">
-                         <el-col :span="6" :offset="2">
-                             <el-form-item label="显示图标">
-                                 <el-input v-model="mainForm.iconClass" placeholder="显示图标"></el-input>
-                             </el-form-item>
-                         </el-col>
+                        <el-col :span="6" :offset="2" prop="permissionName">
+                            <el-form-item label="权限名称">
+                                 <el-select v-model="mainForm.permissionName" placeholder="" style="width:100%" @change="urlChange" clearable>
+                                   <el-option v-for="item in allPermissions" :key="item.key" :label="item.name" :value="item.name"></el-option>
+                                 </el-select>
+                            </el-form-item>
+                        </el-col>                            
                           <el-col :span="6" :offset="2">
                               <el-form-item label="排序">
                                   <el-input-number v-model="mainForm.order" placeholder="排序" style="width:100%"></el-input-number>
                               </el-form-item>
-                          </el-col>
+                          </el-col>                                             
                     </el-row>
                      <el-row :gutter="20">
-                         <el-col :span="6" :offset="2">
+                          <el-col :span="6" :offset="2">
                              <el-form-item label="默认选中">
                                     <el-switch v-model="mainForm.default"  active-text='否' inactive-text='是' :active-value='false' :inactive-value='true'></el-switch>
                              </el-form-item>
-                         </el-col>
-                          <el-col :span="6" :offset="2">
-                              <el-form-item label="是否首页">
-                                    <el-switch v-model="mainForm.isHome"  active-text='否' inactive-text='是' :active-value='false' :inactive-value='true'></el-switch>
-                              </el-form-item>
-                          </el-col>
-                    </el-row> 
-                     <el-row :gutter="20">
+                         </el-col>                           
                          <el-col :span="6" :offset="2" v-if="mainForm.url==null">
                               <el-form-item label="分组样式">
                                     <el-switch v-model="mainForm.group"  active-text='否' inactive-text='是' :active-value='false' :inactive-value='true'></el-switch>
                               </el-form-item>
-                         </el-col>
+                         </el-col> 
+                          <!-- <el-col :span="6" :offset="2">
+                              <el-form-item label="是否首页">
+                                    <el-switch v-model="mainForm.isHome"  active-text='否' inactive-text='是' :active-value='false' :inactive-value='true'></el-switch>
+                              </el-form-item>
+                          </el-col> -->
+                    </el-row> 
+                     <!-- <el-row :gutter="20">
+                          <el-col :span="6" :offset="2">
+                              <el-form-item label="路由名称">
+                                  <el-input v-model="mainForm.name" placeholder="路由名称"></el-input>
+                              </el-form-item>
+                          </el-col>                         
                           <el-col :span="6" :offset="2">
                               <el-form-item label="页签可关闭" v-if="theme.showPageTab">
                                     <el-switch v-model="mainForm.notClose"  active-text='否' inactive-text='是' :active-value='false' :inactive-value='true'></el-switch>
                               </el-form-item>
                           </el-col>
-                    </el-row>                                                                                         
+                    </el-row>                                                                                          -->
                 </el-form>
             </template>
         </portlet-boxed>                 
-    </div>         
- 
+    </div>   
+    <el-dialog title="选择图标" :visible.sync="dialogVisible" width="50%">
+        <icon-list></icon-list>  
+        <div slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+            <el-button @click="dialogVisible = false">取 消</el-button>
+        </div>
+    </el-dialog>    
+     
   </div>
 </template>
 
@@ -148,8 +168,11 @@
       name: 'menusTree',
       data() {
         return { 
+          dialogVisible:false,
           pageState:'list',        
           treeData: [],
+          urlList:[],
+          allPermissions:[],
           mainForm: {
             displayName: "",
             name: "",   
@@ -171,6 +194,10 @@
                 { required: true, message: '菜单名称为必须项', trigger: 'blur' },
                 { min: 2, max: 50, message: '长度在 2 到 50 个字符', trigger: 'blur' }
             ],
+            name: [
+                { required: true, message: '路由名称为必须项', trigger: 'change' },
+                { min: 2, max: 50, message: '长度在 2 到 50 个字符', trigger: 'change' }
+            ],            
           },          
           permissionNames:{
             add:'ZeroPages.MenusTree.Create',
@@ -188,10 +215,28 @@
         }               
       },        
       mounted(){
+          console.log(abp.auth.allPermissions);
+          console.log(this.$router.options.routes);
+            Object.keys(abp.auth.allPermissions).forEach((k) => {
+                this.allPermissions.push({name:k});
+            });            
+          let routers=this.$router.options.routes.filter(p=>p.path=="/app");
+          this.urlList=routers[0].children;
           defaultForm=_.cloneDeep(this.mainForm);
           this.loadTableData();
       },    
       methods: {
+        selectIcon(){
+            this.dialogVisible=true;
+        },
+        urlChange(val){
+            if(val==null){ //清空时
+                this.mainForm.name=null;
+                return;
+            }
+            let urls=this.urlList.filter(p=>p.path==val);
+            this.mainForm.name=urls[0].name;
+        },
         loadTableData(){
           _appNavigationServiceProxy.getMenuTree()
             .then(result => {          
