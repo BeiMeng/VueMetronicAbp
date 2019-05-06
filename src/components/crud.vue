@@ -22,7 +22,7 @@
 </style>
 
 <template>
-  <div class='crud'>
+  <div class='crud' v-loading="loading" element-loading-text="保存中....">
     <div v-show="pageState=='list'">
         <portlet-boxed icon="fa fa-search" title="查询条件" v-show="showQuery">
             <template slot="body">
@@ -84,6 +84,7 @@
     },
     data() {
       return {
+        loading:false,
         pageState:'list',
         tableData: [],
         selectDataId:null,
@@ -151,7 +152,7 @@
         },
         handlerAddData:{
             type:Function,
-            default:()=>{return r}            
+            default:(r)=>{return r}            
         },
         handlerEditData:{
             type:Function,
@@ -282,7 +283,7 @@
 
             this.getByServer(dataId)
             .then(result=>{
-                let handlerResult;
+                let handlerResult=result;
                 if(this.pageState=='add'){
                     handlerResult=this.handlerAddData(result);
                 }else if(this.pageState=='edit'){
@@ -334,10 +335,11 @@
                 data[this.keyName]=saveData;
                 //todo warp
                 let handlerData=this.handlerSaveData(data)
-
+                this.loading=true;
                 this.saveServer(handlerData)
                 .then((result)=>{
                     console.log(result);
+                    this.loading=false;
                     this.$refs.tableList.clearSelection();
                     this.selectDataId=result[this.keyId];                                
                     this.loadTableData();
