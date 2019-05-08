@@ -1,4 +1,4 @@
-import Vue from 'vue'
+//import Vue from 'vue'
 //import config from '../../config/index'
 const sideBar = {
   state: {

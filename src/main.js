@@ -2,7 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 
 //引入vue
-import Vue from 'vue'
+//import Vue from 'vue'
 Vue.config.productionTip = false
 import abpMixins from '@/abpZero/shared/abpMixin'
 
@@ -10,10 +10,10 @@ Vue.mixin(abpMixins)
 
 
 //引入ElementUI组件库及其相关样式
-import ElementUI from 'element-ui';
+//import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 //设置ElementUI 组件库 组件大小，以及模拟弹窗的zIndex 值
-Vue.use(ElementUI, { size: 'small', zIndex: 100000 });
+Vue.use(ELEMENT, { size: 'small', zIndex: 100000 });
 
 
 

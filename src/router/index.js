@@ -1,11 +1,11 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+//import Vue from 'vue'
+//import Router from 'vue-router'
 
 
 import demo from '../router/demo'
 import zero from '../router/zero'
 
-Vue.use(Router)
+//Vue.use(Router)
 
 
 
@@ -103,7 +103,7 @@ function repart(nameList){
 
 
 
-let router = new Router({
+let router = new VueRouter({
   mode: 'history',
   routes:routes
 })
