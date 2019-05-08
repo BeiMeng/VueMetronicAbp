@@ -5,7 +5,7 @@
             <div class="row bs-reset">
                 <div class="col-md-6 bs-reset mt-login-5-bsfix">
                     <div class="login-bg lgs">
-                        <img class="login-logo" src="../../assets/layouts/layout4/img/login/logo.png" /> </div>
+                        <img class="login-logo" src="../../assets/logo.png" /> </div>
                 </div>
                 <div class="col-md-6 login-container bs-reset mt-login-5-bsfix">
                     <div class="login-content">
@@ -150,7 +150,7 @@
 
 <style scoped>
     .lgs {
-        background-image: url(../../assets/layouts/layout4/img/login/bg1.jpg)
+        background-image: url(../../assets/bg1.jpg)
     }
     .login {
         background-color: white;
