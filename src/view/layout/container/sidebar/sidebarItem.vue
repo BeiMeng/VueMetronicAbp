@@ -15,14 +15,20 @@
 </template>
 
 <script>
-    import config from '../../../../config/index.js'
     export default {
         name: 'sidebarItem',
         data() {
             return {
-                maxTabCount:config.maxTabCount
             }
         },
+        computed: {
+            formDisabled: function () {
+                return this.pageState=="browse" || this.pageState=="list";
+            },
+            theme(){
+                return this.$store.state.appSession.theme
+            }               
+        },         
         props: {
             item: {
                 type: Object,
@@ -36,7 +42,7 @@
                 }
                 //限制打开过多的tab页，防止缓存过多
                 let tabPageCount=this.$store.state.tabView.visitedViews.length
-                if(tabPageCount>=this.maxTabCount){
+                if(tabPageCount>=this.theme.maxTabCount){
                     this.$message({
                         type: 'warning',
                         message: `当前打开页面太多,请关闭一些不使用页面再点击！`

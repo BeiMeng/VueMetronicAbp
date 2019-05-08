@@ -103,8 +103,8 @@
                           </el-col>                          
                     </el-row>
                      <el-row :gutter="20">
-                        <el-col :span="6" :offset="2" prop="permissionName">
-                            <el-form-item label="权限名称">
+                        <el-col :span="6" :offset="2" >
+                            <el-form-item label="权限名称" prop="permissionName">
                                  <el-select v-model="mainForm.permissionName" placeholder="" style="width:100%" @change="urlChange" clearable>
                                    <el-option v-for="item in allPermissions" :key="item.key" :label="item.name" :value="item.name"></el-option>
                                  </el-select>
@@ -195,6 +195,10 @@
                 { min: 2, max: 50, message: '长度在 2 到 50 个字符', trigger: 'blur' }
             ],
             name: [
+                { required: true, message: '路由名称为必须项', trigger: 'change' },
+                { min: 2, max: 50, message: '长度在 2 到 50 个字符', trigger: 'change' }
+            ], 
+            permissionName: [
                 { required: true, message: '路由名称为必须项', trigger: 'change' },
                 { min: 2, max: 50, message: '长度在 2 到 50 个字符', trigger: 'change' }
             ],            
