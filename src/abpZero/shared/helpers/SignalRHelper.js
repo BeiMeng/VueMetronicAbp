@@ -1,4 +1,4 @@
-import { UtilsService } from '@abp/utils/utils.service';
+import { UtilsService } from '@/abpZero/abp-vue-module/utils/utils.service';
 import { AppConsts } from '@/abpZero/shared/AppConsts';
 export class SignalRHelper {
     static initSignalR(callback) {
@@ -16,7 +16,7 @@ export class SignalRHelper {
         script.onload = () => {
             callback();
         };
-        script.src = AppConsts.appBaseUrl + '/assets/abp/abp.signalr-client.js';
-        document.head.appendChild(script);
+        script.src = AppConsts.appBaseUrl + '/static/abp-web-resources/abp.signalr-client.js';
+        document.body.appendChild(script);
     }
 }

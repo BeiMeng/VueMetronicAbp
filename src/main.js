@@ -61,7 +61,7 @@ import { UrlHelper } from '@/abpZero/shared/helpers/UrlHelper';
 
 import { AppPreBootstrap } from '@/abpZero/AppPreBootstrap';
 
-
+import { SignalRHelper } from '@/abpZero/shared/helpers/SignalRHelper';
 
 (function () {
 
@@ -70,15 +70,22 @@ import { AppPreBootstrap } from '@/abpZero/AppPreBootstrap';
     AppPreBootstrap.run(appconfig, () => {
         handleLogoutRequest(new AppAuthService()); 
         store.dispatch('init')  //初始化appSession
-        .then((result) => {               
+        .then((result) => {
             new Vue({
                 render: h => h(App),
                 router,
                 store,
                 mounted () {
-                  abp.ui.clearBusy(); 
+                    if(result!=null){
+                        SignalRHelper.initSignalR(()=>{
+                            abp.ui.clearBusy(); 
+                        })    
+                    }else{
+                        abp.ui.clearBusy();
+                    }                    
                 }
-            }).$mount('#app')       
+            }).$mount('#app')               
+               
         }).catch(() => {})                            
     });
 

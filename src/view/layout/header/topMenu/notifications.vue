@@ -3,7 +3,7 @@
         <li class="dropdown dropdown-extended dropdown-notification dropdown-dark" id="header_notification_bar">
             <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                 <i class="icon-bell"></i>
-                <span class="badge badge-success"> 7 </span>
+                <span class="badge badge-success"> {{count}} </span>
             </a>
             <ul class="dropdown-menu">
                 <li class="external">
@@ -104,7 +104,18 @@
 <script>
     export default {
         name: "notifications",
-        components: {}
+        components: {},
+        data() {
+            return {
+                count: 8
+            }
+        },
+        mounted(){
+            abp.event.on('abp.notifications.received', userNotification => {
+                this.count+=1;
+                console.log(userNotification);
+            });            
+        }
     }
 </script>
 
